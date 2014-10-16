@@ -35,63 +35,44 @@
     <ui:define name="content">
         <div style="margin-left: 5px;">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="ÊÕ¿îµ¥Î»¹æÔò±àÐ´">
+                <p:tab title="æ”¶æ¬¾å•ä½è§„åˆ™ç¼–å†™">
                     <h:form>
-                        <div id="cdtcardtable">
-                            <p:focus for="cardno"/>
+                        <div id="mchtruletable">
+                            <p:focus for="mchtcode"/>
                             <p:growl id="msgs" showDetail="false" life="7000"/>
                             <p:panel style="margin-top:27px;align:right;" id="panel">
                                 <h:panelGrid columns="4" cellspacing="5"
                                              columnClasses="col-label,col-input,col-label2,col-input">
 
-                                    <h:outputLabel value="*¿¨ºÅ:"/>
-                                    <p:inputText id="cardno" required="true" value="#{cdtCardAction.cdtcard.cardno}" size="27"
-                                                 maxlength="16" requiredMessage="±ØÐëÊäÈë¿¨ºÅ£¡"/>
+                                    <h:outputLabel value="*æ”¶æ¬¾å•ä½å®¢æˆ·å·:"/>
+                                    <p:inputText id="mchtcode" required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.mchtCode}" size="27"
+                                                 maxlength="16" requiredMessage="å¿…é¡»è¾“å…¥æ”¶æ¬¾å®¢æˆ·å·ï¼"/>
+                                    <h:outputLabel value="æ”¶æ¬¾å•ä½åç§°:"/>
+                                    <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.mchtName}" size="27" maxlength="80"/>
 
-                                    <h:outputLabel value="*¿¨ÖÖ:"/>
-                                    <h:selectOneMenu value="#{cdtCardAction.cdtcard.cardtype}" style="width: 187px;">
-                                        <f:selectItems value="#{cdtCardAction.cardTypeOptions}"/>
-                                    </h:selectOneMenu>
+                                    <h:outputLabel value="*é¡¹ç›®ç¼–å·:"/>
+                                    <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.prjCode}" size="27" maxlength="80"/>
 
-                                    <h:outputLabel value="*Ö¤¼þÖÖÀà:"/>
-                                    <h:selectOneMenu value="#{cdtCardAction.cdtcard.idtype}">
-                                        <f:selectItems value="#{cdtCardAction.certificateOptions}"/>
-                                    </h:selectOneMenu>
-                                    <h:outputLabel value="*³Ö¿¨ÈËÖ¤¼þºÅ:"/>
-                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.idno}" size="27"
-                                                 maxlength="18" requiredMessage="±ØÐëÊäÈëÖ¤¼þºÅ£¡"/>
-                                    <h:outputLabel value="*³Ö¿¨ÈËÐÕÃû:"/>
-                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.name}" size="27"
-                                                 maxlength="60" requiredMessage="±ØÐëÊäÈë³Ö¿¨ÈËÐÕÃû£¡"/>
-                                    <h:outputLabel value="*Ô¤´æ½ð¶î:"/>
-                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.openamt}" size="27"
-                                                 maxlength="17" requiredMessage="±ØÐëÊäÈëÔ¤´æ½ð¶î£¡"/>
-                                    <h:outputLabel value="µØÖ·:"/>
-                                    <p:inputText value="#{cdtCardAction.cdtcard.addr}" size="27" maxlength="80"/>
-                                    <h:outputLabel value="ÓÊ±à:"/>
-                                    <p:inputText value="#{cdtCardAction.cdtcard.zipnum}" size="27" maxlength="6"/>
-                                    <h:outputLabel value="*ÒÆ¶¯µç»°:"/>
-                                    <p:inputText value="#{cdtCardAction.cdtcard.mobile}" size="27"
-                                                 required="true" requiredMessage="±ØÐëÊäÈëÊÖ»úºÅ£¡" maxlength="11"
-                                                 validator="#{cdtCardAction.validate}"/>
-                                    <h:outputLabel value="¹Ì¶¨µç»°:"/>
-                                    <p:inputText value="#{cdtCardAction.cdtcard.telnum}" size="27" maxlength="20"/>
-                                    <h:outputLabel value="µç×ÓÓÊÏä:"/>
-                                    <p:inputText value="#{cdtCardAction.cdtcard.email}" size="27" maxlength="40"/>
+                                    <h:outputLabel value="*å•ç¬”é™é¢:"/>
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.singleLim}" size="27"
+                                                 maxlength="17" requiredMessage="å¿…é¡»è¾“å…¥é‡‘é¢ï¼"/>
+
+                                    <h:outputLabel value="*æ—¥ç´¯è®¡é™é¢:"/>
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.dayTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="å¿…é¡»è¾“å…¥é‡‘é¢ï¼"/>
+
+                                    <h:outputLabel value="*æœˆç´¯è®¡é™é¢:"/>
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="å¿…é¡»è¾“å…¥é‡‘é¢ï¼"/>
+
                                     <h:outputLabel/>
                                     <h:outputLabel/>
 
-                                    <h:outputLabel value="*ÃÜÂë:" style="color: blue"/>
-                                    <p:password value="#{cdtCardAction.cdtcard.pin}" required="true" size="27"
-                                                maxlength="6" requiredMessage="±ØÐëÊäÈëÃÜÂë£¡"/>
-                                    <h:outputLabel value="*È·ÈÏÃÜÂë:" style="color: blue"/>
-                                    <p:password value="#{cdtCardAction.confirmPwd}" required="true" size="27"
-                                                maxlength="6" requiredMessage="±ØÐëÊäÈëÈ·ÈÏÃÜÂë£¡"/>
                                 </h:panelGrid>
                                 <p:separator style="margin-top:27px"/>
                                 <h:panelGrid columns="1" style="text-align: center;margin-left: 298px;">
-                                    <p:commandButton style="width:120px;align:center;" value="È·ÈÏ¿ª¿¨"
-                                                     action="#{cdtCardAction.onInsert}"
+                                    <p:commandButton style="width:120px;align:center;" value="ç¡®è®¤"
+                                                     action="#{tqcRuleMchtAction.onInsert}"
                                                      update="msgs,panel,pdt">
                                     </p:commandButton>
                                 </h:panelGrid>
@@ -105,27 +86,29 @@
                                 </f:facet>
                             </p:ajaxStatus>
                             <p:dataTable id="pdt" dynamic="true" style="width:100%;"
-                                         value="#{cdtCardAction.cardList}" var="record"
-                                         rowKey="#{record.pkid}"
+                                         value="#{tqcRuleMchtAction.ruleList}" var="record"
+                                         rowKey="#{record.mchtCode},#{record.prjCode}"
                                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
-                                         emptyMessage="Ã»ÓÐ²éÑ¯µ½Êý¾Ý¼ÇÂ¼...">
-                                <p:column headerText="¿¨ºÅ" style="text-align: center">
-                                    <h:outputText value="#{record.cardno}"/>
+                                         emptyMessage="æ²¡æœ‰æŸ¥è¯¢åˆ°æ•°æ®è®°å½•...">
+                                <p:column headerText="æ”¶æ¬¾å®¢æˆ·å·" style="text-align: center">
+                                    <h:outputText value="#{record.mchtCode}"/>
                                 </p:column>
-                                <p:column headerText="³Ö¿¨ÈË" style="text-align: right">
-                                    <h:outputText value="#{record.name}"/>
+                                <p:column headerText="æ”¶æ¬¾å®¢æˆ·åç§°" style="text-align: center">
+                                    <h:outputText value="#{record.mchtName}"/>
                                 </p:column>
-                                <p:column headerText="Ö¤¼þºÅÂë">
-                                    <h:outputText value="#{record.idno}" style="float: right"/>
+                                <p:column headerText="é¡¹ç›®ç¼–å·" style="text-align: right">
+                                    <h:outputText value="#{record.prjCode}"/>
                                 </p:column>
-                                <p:column headerText="¿¨×´Ì¬" style="text-align: center">
-                                    <h:outputText
-                                            value="#{cdtCardAction.cardStatus.valueOfAlias(record.cardsts).title}"/>
+                                <p:column headerText="å•ç¬”é™é¢">
+                                    <h:outputText value="#{record.singleLim}" style="float: right"/>
                                 </p:column>
-                                <p:column headerText="·¢¿¨ÈÕÆÚ" style="text-align: center">
-                                    <h:outputText value="#{record.opendate}"/>
+                                <p:column headerText="æ—¥ç´¯è®¡é™é¢">
+                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                </p:column>
+                                <p:column headerText="æœˆç´¯è®¡é™é¢">
+                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
                                 </p:column>
                             </p:dataTable>
                         </div>
