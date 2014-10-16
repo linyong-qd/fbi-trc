@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .col-label {
+                width: 100px;
+                text-align: right;
+            }
+
+            .col-label2 {
+                width: 100px;
+                text-align: right;
+            }
+
+            .col-input {
+                width: 200px;
+                text-align: left;
+            }
+
+        </style>
+        <script type="text/javascript" language="javascript">
+            document.onkeydown = function TabReplace() {
+                if (event.keyCode == 13) {
+                    if (event.srcElement.tagName != 'BUTTON')
+                        event.keyCode = 9;
+                }
+            }
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <div style="margin-left: 5px;">
+            <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
+                <p:tab title="收款单位规则编写">
+                    <h:form>
+                        <div id="cdtcardtable">
+                            <p:focus for="cardno"/>
+                            <p:growl id="msgs" showDetail="false" life="7000"/>
+                            <p:panel style="margin-top:27px;align:right;" id="panel">
+                                <h:panelGrid columns="4" cellspacing="5"
+                                             columnClasses="col-label,col-input,col-label2,col-input">
+
+                                    <h:outputLabel value="*卡号:"/>
+                                    <p:inputText id="cardno" required="true" value="#{cdtCardAction.cdtcard.cardno}" size="27"
+                                                 maxlength="16" requiredMessage="必须输入卡号！"/>
+
+                                    <h:outputLabel value="*卡种:"/>
+                                    <h:selectOneMenu value="#{cdtCardAction.cdtcard.cardtype}" style="width: 187px;">
+                                        <f:selectItems value="#{cdtCardAction.cardTypeOptions}"/>
+                                    </h:selectOneMenu>
+
+                                    <h:outputLabel value="*证件种类:"/>
+                                    <h:selectOneMenu value="#{cdtCardAction.cdtcard.idtype}">
+                                        <f:selectItems value="#{cdtCardAction.certificateOptions}"/>
+                                    </h:selectOneMenu>
+                                    <h:outputLabel value="*持卡人证件号:"/>
+                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.idno}" size="27"
+                                                 maxlength="18" requiredMessage="必须输入证件号！"/>
+                                    <h:outputLabel value="*持卡人姓名:"/>
+                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.name}" size="27"
+                                                 maxlength="60" requiredMessage="必须输入持卡人姓名！"/>
+                                    <h:outputLabel value="*预存金额:"/>
+                                    <p:inputText required="true" value="#{cdtCardAction.cdtcard.openamt}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入预存金额！"/>
+                                    <h:outputLabel value="地址:"/>
+                                    <p:inputText value="#{cdtCardAction.cdtcard.addr}" size="27" maxlength="80"/>
+                                    <h:outputLabel value="邮编:"/>
+                                    <p:inputText value="#{cdtCardAction.cdtcard.zipnum}" size="27" maxlength="6"/>
+                                    <h:outputLabel value="*移动电话:"/>
+                                    <p:inputText value="#{cdtCardAction.cdtcard.mobile}" size="27"
+                                                 required="true" requiredMessage="必须输入手机号！" maxlength="11"
+                                                 validator="#{cdtCardAction.validate}"/>
+                                    <h:outputLabel value="固定电话:"/>
+                                    <p:inputText value="#{cdtCardAction.cdtcard.telnum}" size="27" maxlength="20"/>
+                                    <h:outputLabel value="电子邮箱:"/>
+                                    <p:inputText value="#{cdtCardAction.cdtcard.email}" size="27" maxlength="40"/>
+                                    <h:outputLabel/>
+                                    <h:outputLabel/>
+
+                                    <h:outputLabel value="*密码:" style="color: blue"/>
+                                    <p:password value="#{cdtCardAction.cdtcard.pin}" required="true" size="27"
+                                                maxlength="6" requiredMessage="必须输入密码！"/>
+                                    <h:outputLabel value="*确认密码:" style="color: blue"/>
+                                    <p:password value="#{cdtCardAction.confirmPwd}" required="true" size="27"
+                                                maxlength="6" requiredMessage="必须输入确认密码！"/>
+                                </h:panelGrid>
+                                <p:separator style="margin-top:27px"/>
+                                <h:panelGrid columns="1" style="text-align: center;margin-left: 298px;">
+                                    <p:commandButton style="width:120px;align:center;" value="确认开卡"
+                                                     action="#{cdtCardAction.onInsert}"
+                                                     update="msgs,panel,pdt">
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:ajaxStatus style="height:18px;text-align:center">
+                                <f:facet name="start">
+                                    <h:graphicImage value="/images/ajaxloadingbar.gif"/>
+                                </f:facet>
+                                <f:facet name="complete">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <p:dataTable id="pdt" dynamic="true" style="width:100%;"
+                                         value="#{cdtCardAction.cardList}" var="record"
+                                         rowKey="#{record.pkid}"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" rows="15" paginatorPosition="bottom"
+                                         rowsPerPageTemplate="100,50,30,15,5"
+                                         emptyMessage="没有查询到数据记录...">
+                                <p:column headerText="卡号" style="text-align: center">
+                                    <h:outputText value="#{record.cardno}"/>
+                                </p:column>
+                                <p:column headerText="持卡人" style="text-align: right">
+                                    <h:outputText value="#{record.name}"/>
+                                </p:column>
+                                <p:column headerText="证件号码">
+                                    <h:outputText value="#{record.idno}" style="float: right"/>
+                                </p:column>
+                                <p:column headerText="卡状态" style="text-align: center">
+                                    <h:outputText
+                                            value="#{cdtCardAction.cardStatus.valueOfAlias(record.cardsts).title}"/>
+                                </p:column>
+                                <p:column headerText="发卡日期" style="text-align: center">
+                                    <h:outputText value="#{record.opendate}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </div>
+    </ui:define>
+</ui:composition>
