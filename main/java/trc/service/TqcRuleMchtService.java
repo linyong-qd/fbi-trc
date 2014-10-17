@@ -4,10 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pub.platform.security.OperatorManager;
+import skyline.service.ToolsService;
 import trc.repository.dao.TqcRuleMchtMapper;
 import trc.repository.model.TqcRuleMcht;
 import trc.repository.model.TqcRuleMchtExample;
+import trc.repository.model.TqcRuleMchtKey;
 
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +35,42 @@ public class TqcRuleMchtService {
     public boolean isRuleExist(String mchtCode,String prjCode) {
         return qryRuleByMchtCodePrjCode(mchtCode, prjCode).size() > 0;
     }
+    @Transactional
     public int insertRule(TqcRuleMcht ruleMcht) {
+        ruleMcht.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        OperatorManager om = ToolsService.getOperatorManager();
+        ruleMcht.setOperId(om.getOperatorId());
+        ruleMcht.setRecver(new BigDecimal(1));
         return tqcRuleMchtMapper.insert(ruleMcht);
     }
 
+    @Transactional
+    public int updateRule(TqcRuleMcht ruleMcht) {
+        TqcRuleMcht rule = getRuleByRule(ruleMcht);
+        return tqcRuleMchtMapper.updateByPrimaryKey(rule);
+    }
+
+    @Transactional
+    public int deleteRule(TqcRuleMcht ruleMcht) {
+        TqcRuleMcht rule = getRuleByRule(ruleMcht);
+        return tqcRuleMchtMapper.updateByPrimaryKey(rule);
+    }
+
+    public TqcRuleMcht qryRuleByKey(TqcRuleMchtKey key){
+        return tqcRuleMchtMapper.selectByPrimaryKey(key);
+    }
+
+    private TqcRuleMcht getRuleByRule(TqcRuleMcht ruleMcht) {
+        TqcRuleMcht rule = new TqcRuleMcht();
+        rule.setPrjCode(ruleMcht.getPrjCode());
+        rule.setMchtCode(ruleMcht.getMchtCode());
+        rule.setMchtName(ruleMcht.getMchtName());
+        rule.setSingleLim(ruleMcht.getSingleLim());
+        rule.setDayTotalLim(ruleMcht.getDayTotalLim());
+        rule.setMonthTotalLim(ruleMcht.getMonthTotalLim());
+        rule.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        OperatorManager om = ToolsService.getOperatorManager();
+        rule.setOperId(om.getOperatorId());
+        return rule;
+    }
 }
