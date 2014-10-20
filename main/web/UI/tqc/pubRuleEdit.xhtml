@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .col-label {
+                width: 100px;
+                text-align: right;
+            }
+
+            .col-label2 {
+                width: 100px;
+                text-align: right;
+            }
+
+            .col-input {
+                width: 200px;
+                text-align: left;
+            }
+
+        </style>
+        <script type="text/javascript" language="javascript">
+            document.onkeydown = function TabReplace() {
+                if (event.keyCode == 13) {
+                    if (event.srcElement.tagName != 'BUTTON')
+                        event.keyCode = 9;
+                }
+            }
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <div style="margin-left: 5px;">
+            <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
+                <p:tab title="公共规则编写">
+                    <h:form>
+                        <div id="mchtruletable">
+                            <p:focus for="ruletype"/>
+                            <p:growl id="msgs" showDetail="false" life="7000"/>
+                            <p:panel style="margin-top:27px;align:right;" id="panel">
+                                <h:panelGrid columns="4" cellspacing="5"
+                                             columnClasses="col-label,col-input,col-label2,col-input">
+
+                                    <h:outputLabel value="*规则类型:"/>
+                                    <p:inputText id="ruletype" required="true" value="#{tqcRulePubAction.tqcRulePub.ruleType}" size="27"
+                                                 maxlength="16" requiredMessage="必须输入规则类型！"/>
+
+                                    <h:outputLabel value="*单笔限额:"/>
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.singleLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入单笔限额！"/>
+
+                                    <h:outputLabel value="*日累计限额:"/>
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.dayTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入日累计限额！"/>
+
+                                    <h:outputLabel value="*月累计限额:"/>
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.monthTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入月累计限额！"/>
+
+                                    <h:outputLabel value="备注:"/>
+                                    <p:inputTextarea required="true" value="#{tqcRulePubAction.tqcRulePub.remark}" size="27"
+                                                 maxlength="100" style="width: 170px;height: 60px;"/>
+
+                                    <h:outputLabel/>
+                                    <h:outputLabel/>
+
+                                </h:panelGrid>
+                                <p:separator style="margin-top:27px"/>
+                                <h:panelGrid columns="1" style="text-align: center;margin-left: 298px;">
+                                    <p:commandButton style="width:120px;align:center;" value="确认"
+                                                     action="#{tqcRulePubAction.onInsert}"
+                                                     update="msgs,panel,pdt">
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:ajaxStatus style="height:18px;text-align:center">
+                                <f:facet name="start">
+                                    <h:graphicImage value="/images/ajaxloadingbar.gif"/>
+                                </f:facet>
+                                <f:facet name="complete">
+                                    <h:outputText value=""/>
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <p:dataTable id="pdt" dynamic="true" style="width:100%;"
+                                         value="#{tqcRulePubAction.ruleList}" var="record"
+                                         rowKey="#{record.ruleType}"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" rows="15" paginatorPosition="bottom"
+                                         rowsPerPageTemplate="100,50,30,15,5"
+                                         emptyMessage="没有查询到数据记录...">
+                                <p:column headerText="规则类型" style="text-align: center">
+                                    <h:outputText value="#{record.ruleType}"/>
+                                </p:column>
+
+                                <p:column headerText="单笔限额">
+                                    <h:outputText value="#{record.singleLim}" style="float: right"/>
+                                </p:column>
+                                <p:column headerText="日累计限额">
+                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                </p:column>
+                                <p:column headerText="月累计限额">
+                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </div>
+    </ui:define>
+</ui:composition>

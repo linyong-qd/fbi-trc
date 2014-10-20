@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript" language="javascript">
+            document.onkeydown = function TabReplace() {
+                if (event.keyCode == 13) {
+                    if (event.srcElement.tagName != 'BUTTON')
+                        event.keyCode = 9;
+                }
+            }
+            function closeThisWindow(rtnflag) {
+                if (rtnflag == "true") {
+                    window.returnValue = "1";
+                    window.close();
+                }
+            }
+        </script>
+        <style type="text/css">
+            .col-1 {
+                width: 87%;
+            }
+
+            .col-2 {
+                width: 13%;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div style="margin:5px">
+            <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
+                <p:tab title="被扣客户规则变更">
+                    <h:form id="form">
+                        <p:focus for="mchtcode"/>
+                        <p:messages id="msgs" showDetail="false"/>
+                        <p:panel style="margin-top:10px" id="panel">
+                            <h:panelGrid columns="2" cellspacing="5" columnClasses="col-1,col-2" style="text-align: right;">
+                                <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
+                                    <h:outputLabel value="*客户编号:"/>
+                                    <p:inputText id="mchtcode" required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.mchtCode}" size="27"
+                                                 maxlength="16" requiredMessage="必须输入客户编号！" readonly="true"/>
+                                    <h:outputLabel value="*项目编号:"/>
+                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27" maxlength="80" readonly="true"/>
+
+                                    <h:outputLabel value="*客户姓名:"/>
+                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.mchtName}" requiredMessage="必须输入客户姓名！" size="27" maxlength="80"/>
+
+                                    <h:outputLabel value="*账号类型:"/>
+                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" requiredMessage="必须输入账号类型！" size="27" maxlength="80"/>
+
+                                    <h:outputLabel value="*行业领域编号:"/>
+                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.areaCode}" requiredMessage="必须输入行业领域编号！" size="27" maxlength="80"/>
+
+
+                                    <h:outputLabel value="*单笔限额:"/>
+                                    <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.singleLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入金额！"/>
+
+                                    <h:outputLabel value="*日累计限额:"/>
+                                    <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.dayTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入金额！"/>
+
+                                    <h:outputLabel value="*月累计限额:"/>
+                                    <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.monthTotalLim}" size="27"
+                                                 maxlength="17" requiredMessage="必须输入金额！"/>
+
+                                    <h:outputLabel value="备注:"/>
+                                    <p:inputTextarea  value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27"
+                                                 maxlength="100" style="width: 170px;height: 60px;"/>
+                                </h:panelGrid>
+                                <h:panelGrid style="text-align: right;">
+                                    <p:commandButton id="refuseBtn" value="保存" style="width:90px; align:right"
+                                                     action="#{tqcRuleAcctAction.onUpdate}"
+                                                     update="form,msgs">
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+                        <h:outputText id="jscript" escape="false" value="#{tqcRuleAcctAction.jscript}"/>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </div>
+    </ui:define>
+</ui:composition>

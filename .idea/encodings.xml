@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/main/java/pub/platform/db/AbstractBasicBean.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/main/java/pub/platform/db/ConnectionManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/main/java/pub/platform/db/DatabaseConnection.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/main/web/UI/tqc/acctRuleEdit.xhtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main/web/UI/tqc/acctRuleMng.xhtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main/web/UI/tqc/areaRuleEdit.xhtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main/web/UI/tqc/mchtRuleEdit.xhtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main/web/UI/tqc/pubRuleEdit.xhtml" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
+  </component>
+</project>
+
