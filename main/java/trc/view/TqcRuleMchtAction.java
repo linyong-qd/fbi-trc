@@ -32,7 +32,7 @@ public class TqcRuleMchtAction {
     @ManagedProperty(value = "#{tqcRuleMchtService}")
     private  TqcRuleMchtService mchtService;
     private List<TqcRuleMcht> ruleList = new ArrayList<TqcRuleMcht>();
-    private TqcRuleMcht[] selectedRuleRecords;
+    private TqcRuleMcht selectedRuleRecord;
     private String jscript;
 
     @PostConstruct
@@ -42,7 +42,6 @@ public class TqcRuleMchtAction {
     }
 
     public void initRuleInfo(){
-
         Map<String, String> paramsmap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String pkid = paramsmap.get("pkid");
         String action = paramsmap.get("action");
@@ -57,7 +56,6 @@ public class TqcRuleMchtAction {
             }
         }
     }
-
 
     public String onInsert() {
         try {
@@ -105,6 +103,18 @@ public class TqcRuleMchtAction {
 
     public String onUpdate() {
         try {
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getSingleLim()) >= 0) {
+                MessageUtil.addError("单笔限额金额输入有误!");
+                return null;
+            }
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getDayTotalLim()) >= 0) {
+                MessageUtil.addError("日累计限额金额输入有误!");
+                return null;
+            }
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getMonthTotalLim()) >= 0) {
+                MessageUtil.addError("月累计限额金额输入有误!");
+                return null;
+            }
             mchtService.updateRule(tqcRuleMcht);
             logger.info("收款单位更新规则成功！收款单位客户号："+tqcRuleMcht.getMchtCode()+"  项目编号："+tqcRuleMcht.getPrjCode());
             jscript = "<script language='javascript'>closeThisWindow('true');</script>";
@@ -117,18 +127,23 @@ public class TqcRuleMchtAction {
 
     public String onDelete() {
         try {
-            if (selectedRuleRecords == null || selectedRuleRecords.length == 0) {
-                MessageUtil.addWarn("至少选择一笔记录！");
+            if (selectedRuleRecord == null) {
+                MessageUtil.addWarn("请选择一笔记录！");
                 return null;
             }
-            mchtService.deleteRule(tqcRuleMcht);
-            logger.info("收款单位更新规则成功！收款单位客户号："+tqcRuleMcht.getMchtCode()+"  项目编号："+tqcRuleMcht.getPrjCode());
-            jscript = "<script language='javascript'>closeThisWindow('true');</script>";
+            mchtService.deleteRule(selectedRuleRecord);
+            ruleList.remove(selectedRuleRecord);
+            logger.info("收款单位规则删除成功！收款单位客户号："+selectedRuleRecord.getMchtCode()+"  项目编号："+selectedRuleRecord.getPrjCode());
+            MessageUtil.addInfo("收款单位规则删除成功。");
         } catch (Exception e) {
             logger.error("更新规则信息失败。", e);
             MessageUtil.addError("更新规则信息失败。" + e.getMessage());
         }
         return null;
+    }
+
+    public int getRowKey() {
+        return this.hashCode();
     }
 
     public TqcRuleMcht getTqcRuleMcht() {
@@ -171,12 +186,12 @@ public class TqcRuleMchtAction {
         this.prjCode = prjCode;
     }
 
-    public TqcRuleMcht[] getSelectedRuleRecords() {
-        return selectedRuleRecords;
+    public TqcRuleMcht getSelectedRuleRecord() {
+        return selectedRuleRecord;
     }
 
-    public void setSelectedRuleRecords(TqcRuleMcht[] selectedRuleRecords) {
-        this.selectedRuleRecords = selectedRuleRecords;
+    public void setSelectedRuleRecord(TqcRuleMcht selectedRuleRecord) {
+        this.selectedRuleRecord = selectedRuleRecord;
     }
 
     public String getJscript() {

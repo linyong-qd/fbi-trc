@@ -46,31 +46,20 @@ public class TqcRuleMchtService {
 
     @Transactional
     public int updateRule(TqcRuleMcht ruleMcht) {
-        TqcRuleMcht rule = getRuleByRule(ruleMcht);
-        return tqcRuleMchtMapper.updateByPrimaryKey(rule);
+        ruleMcht.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        OperatorManager om = ToolsService.getOperatorManager();
+        ruleMcht.setOperId(om.getOperatorId());
+        return tqcRuleMchtMapper.updateByPrimaryKey(ruleMcht);
     }
-
     @Transactional
     public int deleteRule(TqcRuleMcht ruleMcht) {
-        TqcRuleMcht rule = getRuleByRule(ruleMcht);
-        return tqcRuleMchtMapper.updateByPrimaryKey(rule);
+        TqcRuleMchtKey key = new TqcRuleMchtKey();
+        key.setMchtCode(ruleMcht.getMchtCode());
+        key.setPrjCode(ruleMcht.getPrjCode());
+        return tqcRuleMchtMapper.deleteByPrimaryKey(key);
     }
 
     public TqcRuleMcht qryRuleByKey(TqcRuleMchtKey key){
         return tqcRuleMchtMapper.selectByPrimaryKey(key);
-    }
-
-    private TqcRuleMcht getRuleByRule(TqcRuleMcht ruleMcht) {
-        TqcRuleMcht rule = new TqcRuleMcht();
-        rule.setPrjCode(ruleMcht.getPrjCode());
-        rule.setMchtCode(ruleMcht.getMchtCode());
-        rule.setMchtName(ruleMcht.getMchtName());
-        rule.setSingleLim(ruleMcht.getSingleLim());
-        rule.setDayTotalLim(ruleMcht.getDayTotalLim());
-        rule.setMonthTotalLim(ruleMcht.getMonthTotalLim());
-        rule.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
-        OperatorManager om = ToolsService.getOperatorManager();
-        rule.setOperId(om.getOperatorId());
-        return rule;
     }
 }
