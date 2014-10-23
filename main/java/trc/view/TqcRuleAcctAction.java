@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import skyline.common.utils.MessageUtil;
+import skyline.service.ToolsService;
+import trc.common.enums.AcctType;
 import trc.repository.model.TqcRuleAcct;
 import trc.repository.model.TqcRuleAcctKey;
 import trc.repository.model.TqcRuleMcht;
@@ -16,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +40,20 @@ public class TqcRuleAcctAction {
     private TqcRuleAcct tqcRuleAcct;
     @ManagedProperty(value = "#{tqcRuleAcctService}")
     private TqcRuleAcctService acctService;
+    @ManagedProperty(value = "#{toolsService}")
+    private ToolsService toolService;
     private List<TqcRuleAcct> ruleList = new ArrayList<TqcRuleAcct>();
-    private TqcRuleAcct[] selectedRuleRecords;
+    private TqcRuleAcct selectedRuleRecord;
     private String jscript;
+    private List<SelectItem> acctTypeList;
+
+    private AcctType acctTypeEnum = AcctType.MERCHANT;
 
     @PostConstruct
     public void init() {
         tqcRuleAcct = new TqcRuleAcct();
+        acctTypeList = toolService.getEnuSelectItemList("ACCTTYPE",false,false);
+        acctTypeList.add(0, new SelectItem("", ""));
         initRuleInfo();
     }
 
@@ -65,7 +75,9 @@ public class TqcRuleAcctAction {
         }
     }
 
-
+    /**
+     * 添加被扣单位规则
+     */
     public String onInsert() {
         try {
             if (new BigDecimal(0.00).compareTo(tqcRuleAcct.getSingleLim()) >= 0) {
@@ -97,9 +109,12 @@ public class TqcRuleAcctAction {
         return null;
     }
 
+    /**
+     * 查询被扣单位规则
+     */
     public String onQuery() {
         try {
-            ruleList = acctService.qryRuleByAcctCodePrjCodeAcctType(acctCode, prjCode,acctType);
+            ruleList = acctService.qryRuleByAcctCodePrjCodeAcctType(acctCode, prjCode,tqcRuleAcct.getAcctType());
             if (ruleList.size() == 0) {
                 MessageUtil.addWarn("没有查询到数据记录。");
             }
@@ -110,6 +125,9 @@ public class TqcRuleAcctAction {
         return null;
     }
 
+    /**
+     * 更新行业领域规则
+     */
     public String onUpdate() {
         try {
 
@@ -135,16 +153,20 @@ public class TqcRuleAcctAction {
         return null;
     }
 
-
+    /**
+     * 删除被扣单位规则
+     */
     public String onDelete() {
         try {
-            if (selectedRuleRecords == null || selectedRuleRecords.length == 0) {
+            if (selectedRuleRecord == null) {
                 MessageUtil.addWarn("至少选择一笔记录！");
                 return null;
             }
-            acctService.deleteRule(tqcRuleAcct);
-            logger.info("删除被扣单位规则成功！被扣单位客户号："+tqcRuleAcct.getMchtCode()+"  项目编号："+tqcRuleAcct.getPrjCode());
-            jscript = "<script language='javascript'>closeThisWindow('true');</script>";
+            acctService.deleteRule(selectedRuleRecord);
+            ruleList.remove(selectedRuleRecord);
+           // acctService.deleteRule(tqcRuleAcct);
+            logger.info("删除被扣单位规则成功！被扣单位客户号："+selectedRuleRecord.getMchtCode()+"  项目编号："+selectedRuleRecord.getPrjCode());
+
         } catch (Exception e) {
             logger.error("删除被扣单位规则失败。", e);
             MessageUtil.addError("删除被扣单位规则失败。" + e.getMessage());
@@ -185,12 +207,12 @@ public class TqcRuleAcctAction {
         this.ruleList = ruleList;
     }
 
-    public TqcRuleAcct[] getSelectedRuleRecords() {
-        return selectedRuleRecords;
+    public TqcRuleAcct getSelectedRuleRecord() {
+        return selectedRuleRecord;
     }
 
-    public void setSelectedRuleRecords(TqcRuleAcct[] selectedRuleRecords) {
-        this.selectedRuleRecords = selectedRuleRecords;
+    public void setSelectedRuleRecord(TqcRuleAcct selectedRuleRecord) {
+        this.selectedRuleRecord = selectedRuleRecord;
     }
 
     public String getAcctType() {
@@ -218,4 +240,27 @@ public class TqcRuleAcctAction {
         this.jscript = jscript;
     }
 
+    public ToolsService getToolService() {
+        return toolService;
+    }
+
+    public void setToolService(ToolsService toolService) {
+        this.toolService = toolService;
+    }
+
+    public List<SelectItem> getAcctTypeList() {
+        return acctTypeList;
+    }
+
+    public void setAcctTypeList(List<SelectItem> acctTypeList) {
+        this.acctTypeList = acctTypeList;
+    }
+
+    public AcctType getAcctTypeEnum() {
+        return acctTypeEnum;
+    }
+
+    public void setAcctTypeEnum(AcctType acctTypeEnum) {
+        this.acctTypeEnum = acctTypeEnum;
+    }
 }

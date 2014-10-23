@@ -53,8 +53,8 @@ public class TqcRulePubService {
 
     @Transactional
     public int deleteRule(TqcRulePub rulePub) {
-        TqcRulePub rule = getRuleByRule(rulePub);
-        return tqcRulePubMapper.updateByPrimaryKey(rule);
+        //TqcRulePub rule = getRuleByRule(rulePub);
+        return tqcRulePubMapper.deleteByPrimaryKey(rulePub.getRuleType());
     }
 
     public TqcRulePub qryRuleByKey(String ruleType){

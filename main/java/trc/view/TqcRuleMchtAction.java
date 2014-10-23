@@ -57,6 +57,9 @@ public class TqcRuleMchtAction {
         }
     }
 
+    /**
+     * 添加收款单位规则
+     */
     public String onInsert() {
         try {
             if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getSingleLim()) >= 0) {
@@ -88,6 +91,9 @@ public class TqcRuleMchtAction {
         return null;
     }
 
+    /**
+     * 查询收款单位规则
+     */
     public String onQuery() {
         try {
             ruleList = mchtService.qryRuleByMchtCodePrjCode(mchtCode,prjCode);
@@ -101,6 +107,9 @@ public class TqcRuleMchtAction {
         return null;
     }
 
+    /**
+     * 更新收款单位规则
+     */
     public String onUpdate() {
         try {
             if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getSingleLim()) >= 0) {
@@ -125,6 +134,9 @@ public class TqcRuleMchtAction {
         return null;
     }
 
+    /**
+     * 删除收款单位规则
+     */
     public String onDelete() {
         try {
             if (selectedRuleRecord == null) {

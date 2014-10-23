@@ -43,7 +43,7 @@
                         <div id="qrytable">
                             <p:focus for="mchtcode"/>
                             <p:growl id="msgs" showDetail="false"/>
-                            <p:panel style="margin-top:10px">
+                            <p:panel style="margin-top:10px" id="panel">
                                 <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
                                         <h:outputLabel value="*客户编号:"/>
@@ -58,8 +58,10 @@
                                                      requiredMessage="必须输入项目编号!"
                                                      size="30"/>
 
-                                        <h:outputLabel value="项目编号:"/>
-                                        <p:inputText id="acctType" value="#{tqcRuleAcctAction.acctType}" size="30"/>
+                                        <h:outputLabel value="账号类型:"/>
+                                        <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" style="width: 190px;">
+                                            <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}"/>
+                                        </h:selectOneMenu>
 
                                     </h:panelGrid>
                                     <h:panelGrid>
@@ -81,7 +83,7 @@
                             <p:dataTable id="pdt" dynamic="true" style="width:100%;"
                                          value="#{tqcRuleAcctAction.ruleList}" var="record"
                                          rowKey="#{record.mchtCode},#{record.prjCode},#{record.acctType}" selectionMode="single"
-                                         selection="#{tqcRuleAcctAction.selectedRuleRecords}"
+                                         selection="#{tqcRuleAcctAction.selectedRuleRecord}"
                                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
@@ -99,7 +101,7 @@
                                     <h:outputText value="#{record.prjCode}"/>
                                 </p:column>
                                 <p:column headerText="账号类型" style="text-align: right">
-                                    <h:outputText value="#{record.acctType==1?'对公':'对私'}"/>
+                                    <h:outputText value="#{tqcRuleAcctAction.acctTypeEnum.valueOfAlias(record.acctType).title}"/>
                                 </p:column>
                                 <p:column headerText="行业领域编号" style="text-align: right">
                                     <h:outputText value="#{record.areaCode}"/>
@@ -116,10 +118,10 @@
                                 </p:column>
                                 <p:column headerText="操作" style="width:80px;text-align:center">
                                     <p:commandLink style="color:blue;align:center;" value="修改"
-                                                   onclick="doPopupWindow(this);"/>&#160;&#160;&#160;&#160;
+                                                   onclick="doPopupWindow(this);"/>&#160;&#160;
 
                                     <p:commandLink style="color:blue;align:center;" value="作废"
-                                                   action="#{tqcRuleAcctAction.onDelete()}"/>
+                                                   update="pdt"  action="#{tqcRuleAcctAction.onDelete}"/>
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>

@@ -37,7 +37,7 @@
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
                 <p:tab title="账号限额控制资料">
                     <h:form>
-                        <div id="cdtcardtable">
+                        <div id="acctruletable">
                             <p:focus for="mchtcode"/>
                             <p:growl id="msgs" showDetail="false" life="7000"/>
                             <p:panel style="margin-top:27px;align:right;" id="panel">
@@ -56,11 +56,9 @@
                                     <p:inputText id="prjcode" required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
                                                  maxlength="16" requiredMessage="必须输入项目编号！"/>
                                     <h:outputLabel value="*账号类型:"/>
-                                    <p:inputText  required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" size="27"
-                                                 maxlength="16" requiredMessage="必须输入账号类型！"/>
-                                   <!-- <h:selectOneMenu value="对公;对私">
-                                        <f:selectItems value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"/>
-                                    </h:selectOneMenu>-->
+                                    <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"  style="width: 178px;">
+                                        <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
+                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="*行业领域编号:"/>
                                     <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.areaCode}" size="27"
@@ -115,7 +113,7 @@
                                 </p:column>
                                 <p:column headerText="账号类型" style="text-align: center">
                                     <h:outputText
-                                            value="#{record.acctType}"/>
+                                            value="#{tqcRuleAcctAction.acctTypeEnum.valueOfAlias(record.acctType).title}"/>
                                 </p:column>
                                 <p:column headerText="行业领域编号" style="text-align: center">
                                     <h:outputText value="#{record.areaCode}"/>

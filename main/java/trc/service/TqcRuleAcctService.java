@@ -55,8 +55,12 @@ public class TqcRuleAcctService {
 
     @Transactional
     public int deleteRule(TqcRuleAcct ruleAcct) {
-        TqcRuleAcct rule = getRuleByRule(ruleAcct);
-        return tqcRuleAcctMapper.updateByPrimaryKey(rule);
+        //TqcRuleAcct rule = getRuleByRule(ruleAcct);
+        TqcRuleAcctKey key = new TqcRuleAcctKey();
+        key.setMchtCode(ruleAcct.getMchtCode());
+        key.setPrjCode(ruleAcct.getPrjCode());
+        key.setAcctType(ruleAcct.getAcctType());
+        return tqcRuleAcctMapper.deleteByPrimaryKey(key);
     }
 
     public TqcRuleAcct qryRuleByKey(TqcRuleAcctKey key){

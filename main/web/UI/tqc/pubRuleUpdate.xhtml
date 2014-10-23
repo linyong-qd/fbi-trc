@@ -41,8 +41,9 @@
                             <h:panelGrid columns="2" cellspacing="5" columnClasses="col-1,col-2" style="text-align: right;">
                                 <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
                                     <h:outputLabel value="*规则类型:"/>
-                                    <p:inputText id="ruletype" required="true" value="#{tqcRulePubAction.tqcRulePub.ruleType}" size="27"
-                                                 maxlength="16" readonly="true" requiredMessage="必须输入规则类型！"/>
+                                    <h:selectOneMenu value="#{tqcRulePubAction.tqcRulePub.ruleType}" id="ruletype" required="true" disabled="true" requiredMessage="必须输入规则类型！"  style="width: 178px;">
+                                        <f:selectItems value="#{tqcRulePubAction.ruleTypeList}"/>
+                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="*单笔限额:"/>
                                     <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.singleLim}" size="27"

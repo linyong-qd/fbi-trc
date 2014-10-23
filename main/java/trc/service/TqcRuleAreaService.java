@@ -49,8 +49,8 @@ public class TqcRuleAreaService {
 
     @Transactional
     public int deleteRule(TqcRuleArea ruleArea) {
-        TqcRuleArea rule = getRuleByRule(ruleArea);
-        return tqcRuleAreaMapper.updateByPrimaryKey(rule);
+        //TqcRuleArea rule = getRuleByRule(ruleArea);
+        return tqcRuleAreaMapper.deleteByPrimaryKey(ruleArea.getAreaCode());
     }
 
     public TqcRuleArea qryRuleByKey(String areaCode){

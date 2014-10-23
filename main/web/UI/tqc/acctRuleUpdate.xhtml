@@ -50,7 +50,9 @@
                                     <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.mchtName}" requiredMessage="必须输入客户姓名！" size="27" maxlength="80"/>
 
                                     <h:outputLabel value="*账号类型:"/>
-                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" requiredMessage="必须输入账号类型！" size="27" maxlength="80"/>
+                                    <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" disabled="true"  requiredMessage="必须输入账号类型" style="width: 178px;">
+                                        <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}"/>
+                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="*行业领域编号:"/>
                                     <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.areaCode}" requiredMessage="必须输入行业领域编号！" size="27" maxlength="80"/>

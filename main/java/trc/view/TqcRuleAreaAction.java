@@ -34,7 +34,7 @@ public class TqcRuleAreaAction {
     @ManagedProperty(value = "#{tqcRuleAreaService}")
     private TqcRuleAreaService areaService;
     private List<TqcRuleArea> ruleList = new ArrayList<TqcRuleArea>();
-    private TqcRuleArea[] selectedRuleRecords;
+    private TqcRuleArea selectedRuleRecord;
     private String jscript;
 
     @PostConstruct
@@ -60,7 +60,9 @@ public class TqcRuleAreaAction {
         }
     }
 
-
+    /**
+     * 添加行业领域规则
+     */
     public String onInsert() {
         try {
             if (new BigDecimal(0.00).compareTo(tqcRuleArea.getSingleLim()) >= 0) {
@@ -91,7 +93,9 @@ public class TqcRuleAreaAction {
         }
         return null;
     }
-
+    /**
+     * 查询行业领域规则
+     */
     public String onQuery() {
         try {
 
@@ -106,6 +110,9 @@ public class TqcRuleAreaAction {
         return null;
     }
 
+    /**
+     * 更新行业领域规则
+     */
     public String onUpdate() {
         try {
             if (new BigDecimal(0.00).compareTo(tqcRuleArea.getSingleLim()) >= 0) {
@@ -130,15 +137,20 @@ public class TqcRuleAreaAction {
         return null;
     }
 
+    /**
+     * 删除行业领域规则
+     */
     public String onDelete() {
         try {
-            if (selectedRuleRecords == null || selectedRuleRecords.length == 0) {
+            if (selectedRuleRecord == null) {
                 MessageUtil.addWarn("至少选择一笔记录！");
                 return null;
             }
-            areaService.deleteRule(tqcRuleArea);
-            logger.info("行业领域删除规则成功！行业领域编号："+tqcRuleArea.getAreaCode()+"  行业领域名称："+tqcRuleArea.getAreaName());
-            jscript = "<script language='javascript'>closeThisWindow('true');</script>";
+            areaService.deleteRule(selectedRuleRecord);
+            ruleList.remove(selectedRuleRecord);
+            //areaService.deleteRule(tqcRuleArea);
+            logger.info("行业领域删除规则成功！行业领域编号："+selectedRuleRecord.getAreaCode()+"  行业领域名称："+selectedRuleRecord.getAreaName());
+            //jscript = "<script language='javascript'>closeThisWindow('true');</script>";
         } catch (Exception e) {
             logger.error("删除行业领域规则信息失败。", e);
             MessageUtil.addError("删除行业领域规则信息失败。" + e.getMessage());
@@ -179,12 +191,12 @@ public class TqcRuleAreaAction {
     }
 
 
-    public TqcRuleArea[] getSelectedRuleRecords() {
-        return selectedRuleRecords;
+    public TqcRuleArea getSelectedRuleRecord() {
+        return selectedRuleRecord;
     }
 
-    public void setSelectedRuleRecords(TqcRuleArea[] selectedRuleRecords) {
-        this.selectedRuleRecords = selectedRuleRecords;
+    public void setSelectedRuleRecord(TqcRuleArea selectedRuleRecord) {
+        this.selectedRuleRecord = selectedRuleRecord;
     }
 
     public String getJscript() {
