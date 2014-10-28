@@ -35,7 +35,7 @@
     <ui:define name="content">
         <div style="margin-left: 5px;">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="行业领域资料编辑">
+                <p:tab title="行业领域规则编写">
                     <h:form>
                         <div id="areacodetable">
                             <p:focus for="areacode"/>
@@ -54,10 +54,10 @@
                                     <h:outputLabel value="*单笔限额:"/>
                                     <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.singleLim}" size="27" maxlength="16"/>
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.dayTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.dayAmtLim}" size="27"
                                                  maxlength="16"/>
                                     <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.monthTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.monthAmtLim}" size="27"
                                                  maxlength="16" requiredMessage="必须输入月累计限额！"/>
                                     <!--<h:outputLabel value="*版本号:"/>
                                     <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.recver}" size="27"
@@ -100,10 +100,10 @@
                                 </p:column>
                                 <p:column headerText="日累计限额" style="text-align: center">
                                     <h:outputText
-                                            value="#{record.dayTotalLim}"/>
+                                            value="#{record.dayAmtLim}"/>
                                 </p:column>
                                 <p:column headerText="月累计限额" style="text-align: center">
-                                    <h:outputText value="#{record.monthTotalLim}"/>
+                                    <h:outputText value="#{record.monthAmtLim}"/>
                                 </p:column>
                                 <!--<p:column headerText="版本号" style="text-align: center">
                                     <h:outputText value="#{record.recver}"/>

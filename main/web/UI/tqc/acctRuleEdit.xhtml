@@ -30,13 +30,15 @@
                         event.keyCode = 9;
                 }
             }
-        </script>
+
+
+      </script>
     </ui:define>
     <ui:define name="content">
         <div style="margin-left: 5px;">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="账号限额控制资料">
-                    <h:form>
+                <p:tab title="被扣单位规则编写">
+                    <h:form id="form">
                         <div id="acctruletable">
                             <p:focus for="mchtcode"/>
                             <p:growl id="msgs" showDetail="false" life="7000"/>
@@ -55,28 +57,36 @@
                                     <h:outputLabel value="*项目编号:"/>
                                     <p:inputText id="prjcode" required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
                                                  maxlength="16" requiredMessage="必须输入项目编号！"/>
-                                    <h:outputLabel value="*账号类型:"/>
-                                    <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"  style="width: 178px;">
-                                        <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
-                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="*行业领域编号:"/>
                                     <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.areaCode}" size="27"
                                                  maxlength="18" requiredMessage="必须输入行业领域编号！"/>
-                                    <h:outputLabel value="*单笔限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.singleLim}" size="27"
-                                                 maxlength="60" requiredMessage="必须输入单笔限额！"/>
-                                    <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.dayTotalLim}" size="27"
-                                                 maxlength="17" requiredMessage="必须输入日累计限额！"/>
-                                    <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.monthTotalLim}" size="27" maxlength="80" requiredMessage="必须输入月累计限额！"/>
+
+                                    <h:outputLabel value="*账号类型:"/>
+                                    <h:selectOneMenu id="acctType" value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"
+                                                     valueChangeListener="#{tqcRuleAcctAction.changeAcctType}"
+                                                     onchange="submit()"  immediate="true"
+                                                     required="true" requiredMessage="必须输入账号类型！"  style="width: 178px;">
+                                        <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
+                                    </h:selectOneMenu>
+
+                                    <h:outputLabel value="单笔限额:"/>
+                                    <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.singleLim}" size="27"
+                                                 maxlength="60" />
+                                    <h:outputLabel value="日累计限额:"/>
+                                    <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.dayAmtLim}" size="27"
+                                                 maxlength="17" />
+                                    <h:outputLabel value="月累计限额:"/>
+                                    <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.monthAmtLim}" size="27" maxlength="80" />
+
+                                    <h:outputLabel  rendered="#{tqcRuleAcctAction.render}" value="*是否使用行业领域规则:" />
+                                        <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" rendered="#{tqcRuleAcctAction.render}" required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
+                                            <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
+                                        </h:selectOneMenu>
+
                                     <h:outputLabel value="备注:"/>
                                     <p:inputTextarea value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>
-
                                     <h:outputLabel/>
-                                    <h:outputLabel/>
-
 
                                 </h:panelGrid>
                                 <p:separator style="margin-top:27px"/>
@@ -85,6 +95,7 @@
                                                      action="#{tqcRuleAcctAction.onInsert}"
                                                      update="msgs,panel,pdt">
                                     </p:commandButton>
+
                                 </h:panelGrid>
                             </p:panel>
                             <p:ajaxStatus style="height:18px;text-align:center">
@@ -112,8 +123,7 @@
                                     <h:outputText value="#{record.prjCode}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="账号类型" style="text-align: center">
-                                    <h:outputText
-                                            value="#{tqcRuleAcctAction.acctTypeEnum.valueOfAlias(record.acctType).title}"/>
+                                    <h:outputText   value="#{tqcRuleAcctAction.acctTypeEnum.valueOfAlias(record.acctType).title}"/>
                                 </p:column>
                                 <p:column headerText="行业领域编号" style="text-align: center">
                                     <h:outputText value="#{record.areaCode}"/>
@@ -122,11 +132,17 @@
                                     <h:outputText value="#{record.singleLim}"/>
                                 </p:column>
                                 <p:column headerText="日累计限额" style="text-align: center">
-                                    <h:outputText value="#{record.dayTotalLim}"/>
+                                    <h:outputText value="#{record.dayAmtLim}"/>
                                 </p:column>
                                 <p:column headerText="月累计限额" style="text-align: center">
-                                    <h:outputText value="#{record.monthTotalLim}"/>
+                                    <h:outputText value="#{record.monthAmtLim}"/>
                                 </p:column>
+
+                                <p:column headerText="*是否使用行业领域规则" style="text-align: center">
+                                    <h:outputText
+                                            value="#{tqcRuleAcctAction.areaRuleFlagEnum.valueOfAlias(record.areaRuleFlag).title}"/>
+                                </p:column>
+
                                 <p:column headerText="备注" style="text-align: center">
                                     <h:outputText value="#{record.remark}"/>
                                 </p:column>

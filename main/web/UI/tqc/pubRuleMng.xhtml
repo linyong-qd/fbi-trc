@@ -24,6 +24,21 @@
                     document.getElementById("tabview:form:qrybtn").click();
                 }
             }
+
+            //删除
+            function del(obj){
+
+                if(confirm("您确定删除该条记录吗？")){
+                    var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
+                            [0].innerHTML;
+                    document.getElementById("tabview:form:del_inputHidden").value=pkid;
+                    document.getElementById("tabview:form:hidden_del_btn").click();
+                    document.getElementById("tabview:form:qrybtn").click();
+                    document.getElementById("tabview:form:msgsFlag").value="delete";
+
+                }
+
+            }
         </script>
         <style type="text/css">
             .col-95 {
@@ -38,7 +53,8 @@
     <ui:define name="content">
         <div style="margin:5px">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="公共规则管理">
+                <p:tab title="公共规则管理" >
+
                     <h:form id="form">
                         <div id="qrytable">
                             <p:focus for="ruletype"/>
@@ -57,6 +73,10 @@
                                                          action="#{tqcRulePubAction.onQuery}"
                                                          update="pdt,msgs">
                                         </p:commandButton>
+
+                                        <p:commandLink  id="hidden_del_btn" update="pdt"   action="#{tqcRulePubAction.onDelete}"  />
+                                        <h:inputHidden id="del_inputHidden" value="#{tqcRulePubAction.del_inputHidden}" />
+                                        <h:inputHidden id="msgsFlag" value="#{tqcRulePubAction.msgsFlag}" />
                                     </h:panelGrid>
                                 </h:panelGrid>
                             </p:panel>
@@ -87,10 +107,10 @@
                                     <h:outputText value="#{record.singleLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="日累计限额">
-                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.dayAmtLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="月累计限额">
-                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.monthAmtLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="备注">
                                     <h:outputText value="#{record.remark}" />
@@ -100,8 +120,8 @@
                                     <p:commandLink style="color:blue;align:center;" value="修改"
                                                    onclick="doPopupWindow(this);"/>&#160;&#160;&#160;&#160;
 
-                                    <p:commandLink style="color:blue;align:center;" value="作废"
-                                                   update="pdt"  action="#{tqcRulePubAction.onDelete}"/>
+                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del(this)"   />
+
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>
@@ -113,7 +133,7 @@
                             </p:dataTable>
                         </div>
                     </h:form>
-                </p:tab>
+                 </p:tab>
             </p:tabView>
         </div>
     </ui:define>

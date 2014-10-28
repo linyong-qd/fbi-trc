@@ -36,7 +36,7 @@
                 <p:tab title="公共规则变更">
                     <h:form id="form">
                         <p:focus for="ruletype"/>
-                        <p:messages id="msgs" showDetail="false"/>
+                        <p:growl id="msgs" showDetail="true"/>
                         <p:panel style="margin-top:10px" id="panel">
                             <h:panelGrid columns="2" cellspacing="5" columnClasses="col-1,col-2" style="text-align: right;">
                                 <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
@@ -50,11 +50,11 @@
                                                  maxlength="17" requiredMessage="必须输入单笔限额！"/>
 
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.dayTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.dayAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入日累计限额！"/>
 
                                     <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.monthTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.monthAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入月累计限额！"/>
 
                                     <h:outputLabel value="备注:"/>
