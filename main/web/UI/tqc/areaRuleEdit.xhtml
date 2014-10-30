@@ -44,12 +44,13 @@
                                 <h:panelGrid columns="4" cellspacing="5"
                                              columnClasses="col-label,col-input,col-label2,col-input">
 
+                                    <h:outputLabel value="*行业领域名称:"/>
+                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" size="27" maxlength="16"/>
+
                                     <h:outputLabel value="*行业领域编号:"/>
                                     <p:inputText id="areacode" required="true" value="#{tqcRuleAreaAction.tqcRuleArea.areaCode}" size="27"
                                                  maxlength="30" requiredMessage="必须输入行业领域编号！"/>
 
-                                    <h:outputLabel value="*行业领域名称:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" size="27" maxlength="16"/>
 
                                     <h:outputLabel value="*单笔限额:"/>
                                     <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.singleLim}" size="27" maxlength="16"/>
