@@ -57,17 +57,17 @@
 
                     <h:form id="form">
                         <div id="qrytable">
-                            <p:focus for="areacode"/>
+                            <p:focus for="areaName"/>
                             <p:growl id="msgs" showDetail="false"/>
                             <p:panel style="margin-top:10px">
                                 <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
-                                        <h:outputLabel value="*行业领域编号:"/>
-                                        <p:inputText id="areacode" value="#{tqcRuleAreaAction.areaCode}"
-                                                     required="true"
-                                                     requiredMessage="必须输入行业领域编号!"
-                                                     size="30"/>
 
+                                        <h:outputLabel value="*行业领域名称:"/>
+                                        <h:selectOneMenu id="areaName" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}"
+                                                         required="true" requiredMessage="必须输入行业领域名称！"  style="width: 178px;">
+                                            <f:selectItems value="#{tqcRuleAreaAction.areaNameList}"/>
+                                        </h:selectOneMenu>
 
                                     </h:panelGrid>
                                     <h:panelGrid>
@@ -102,12 +102,13 @@
                                 <p:column headerText="Pkid" style="display:none;">
                                     <h:outputText style="display: none;" value="#{record.areaCode}"/>
                                 </p:column>
+                                <p:column headerText="行业领域名称" style="text-align: right">
+                                    <h:outputText value="#{tqcRuleAreaAction.areaNameEnum.valueOfAlias(record.areaName).title}"/>
+                                </p:column>
                                 <p:column headerText="行业领域编号" style="text-align: center">
                                     <h:outputText value="#{record.areaCode}"/>
                                 </p:column>
-                                <p:column headerText="行业领域名称" style="text-align: right">
-                                    <h:outputText value="#{record.areaName}"/>
-                                </p:column>
+
                                 <p:column headerText="单笔限额" style="text-align: center">
                                     <h:outputText value="#{record.singleLim}"/>
                                 </p:column>

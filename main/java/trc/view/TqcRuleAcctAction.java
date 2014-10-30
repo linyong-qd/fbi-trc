@@ -65,6 +65,7 @@ public class TqcRuleAcctAction {
         tqcRuleAcct = new TqcRuleAcct();
         acctTypeList = toolService.getEnuSelectItemList("ACCTTYPE",false,false);
         acctTypeList.add(0, new SelectItem("", ""));
+
         areaRuleFlagList = toolService.getEnuSelectItemList("AREARULEFLAG",false,false);
         areaRuleFlagList.add(0, new SelectItem("", ""));
         initRuleInfo();
@@ -296,6 +297,9 @@ public class TqcRuleAcctAction {
         return null;
     }
     */
+
+
+
 
     public String getAcctCode() {
         return acctCode;

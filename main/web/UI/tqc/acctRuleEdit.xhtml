@@ -32,7 +32,7 @@
             }
 
 
-      </script>
+        </script>
     </ui:define>
     <ui:define name="content">
         <div style="margin-left: 5px;">
@@ -55,7 +55,7 @@
                                                  maxlength="16" requiredMessage="必须输入客户姓名！"/>
 
                                     <h:outputLabel value="*项目编号:"/>
-                                    <p:inputText id="prjcode" required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
+                                    <p:inputText id="prjcode"  required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
                                                  maxlength="16" requiredMessage="必须输入项目编号！"/>
 
                                     <h:outputLabel value="*行业领域编号:"/>
@@ -72,17 +72,17 @@
 
                                     <h:outputLabel value="单笔限额:"/>
                                     <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.singleLim}" size="27"
-                                                 maxlength="60" />
+                                                  maxlength="17" />
                                     <h:outputLabel value="日累计限额:"/>
                                     <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.dayAmtLim}" size="27"
-                                                 maxlength="17" />
+                                                  maxlength="17" />
                                     <h:outputLabel value="月累计限额:"/>
                                     <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.monthAmtLim}" size="27" maxlength="80" />
 
                                     <h:outputLabel  rendered="#{tqcRuleAcctAction.render}" value="*是否使用行业领域规则:" />
-                                        <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" rendered="#{tqcRuleAcctAction.render}" required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
-                                            <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
-                                        </h:selectOneMenu>
+                                    <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" rendered="#{tqcRuleAcctAction.render}" required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
+                                        <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
+                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="备注:"/>
                                     <p:inputTextarea value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>

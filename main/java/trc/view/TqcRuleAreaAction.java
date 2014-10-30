@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import skyline.common.utils.MessageUtil;
+import skyline.service.ToolsService;
+import trc.common.enums.AreaName;
 import trc.repository.model.TqcRuleArea;
 import trc.repository.model.TqcRuleMcht;
 //import trc.repository.model.TqcRuleAreaKey;
@@ -15,6 +17,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +39,20 @@ public class TqcRuleAreaAction {
     private TqcRuleArea tqcRuleArea;
     @ManagedProperty(value = "#{tqcRuleAreaService}")
     private TqcRuleAreaService areaService;
+    @ManagedProperty(value = "#{toolsService}")
+    private ToolsService toolService;
+    private List<SelectItem> areaNameList;
     private List<TqcRuleArea> ruleList = new ArrayList<TqcRuleArea>();
     private TqcRuleArea selectedRuleRecord;
     private String jscript;
+    //行业领域名称枚举
+    private AreaName areaNameEnum= AreaName.LEFT;
 
     @PostConstruct
     public void init() {
         tqcRuleArea = new TqcRuleArea();
+        areaNameList = toolService.getEnuSelectItemList("AREANAME",false,false);
+        areaNameList.add(0, new SelectItem("", ""));
         initRuleInfo();
     }
 
@@ -79,7 +90,7 @@ public class TqcRuleAreaAction {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
-
+            tqcRuleArea.setAreaCode(tqcRuleArea.getAreaName());
             // 确认该规则是否已经存在
             if (areaService.isRuleExist(tqcRuleArea.getAreaCode().trim())) {
                 MessageUtil.addError("该规则已存在!");
@@ -100,8 +111,8 @@ public class TqcRuleAreaAction {
      */
     public String onQuery() {
         try {
-
-            ruleList = areaService.qryRuleByAreaCode(areaCode);
+            //areaCode和areaName值一样
+            ruleList = areaService.qryRuleByAreaCode(tqcRuleArea.getAreaName());
             if (ruleList.size() == 0&&!"delete".equals(msgsFlag)) {
                 MessageUtil.addWarn("没有查询到数据记录。");
             }
@@ -129,12 +140,8 @@ public class TqcRuleAreaAction {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
-
-            // 确认该规则是否已经存在
-            if (areaService.isRuleExist(tqcRuleArea.getAreaCode().trim())) {
-                MessageUtil.addError("该规则已存在!");
-                return null;
-            }
+            tqcRuleArea.setAreaCode(tqcRuleArea.getAreaName());
+            // 确认该规则是否已经存在 areaName和areaCode值一样
             areaService.updateRule(tqcRuleArea);
             logger.info("行业领域更新规则成功！行业领域编号："+tqcRuleArea.getAreaCode()+"  行业领域名称："+tqcRuleArea.getAreaName());
             jscript = "<script language='javascript'>closeThisWindow('true');</script>";
@@ -166,6 +173,26 @@ public class TqcRuleAreaAction {
         }
         return null;
     }
+
+    /*
+    //行业领域规则增加里面行业领域下拉框改变时
+    public String changeAreaName(ValueChangeEvent event){
+        String  areaCode=event.getNewValue().toString();
+        FacesContext facesContext=FacesContext.getCurrentInstance();
+        tqcRuleArea.setAreaCode(areaCode);
+        facesContext.renderResponse();
+        return null;
+    }
+    //行业领域规则管理里面行业领域下拉框改变时
+    public String mngChangeAreaName(ValueChangeEvent event){
+        FacesContext facesContext=FacesContext.getCurrentInstance();
+        //页面中调用的就是areaCode,所以不用放入tqcRuleArea
+        String areaCode=event.getNewValue().toString();
+        this.setAreaCode(areaCode);
+        facesContext.renderResponse();
+         return null;
+    }
+    */
 
     public TqcRuleArea getTqcRuleArea() {
         return tqcRuleArea;
@@ -230,5 +257,29 @@ public class TqcRuleAreaAction {
 
     public void setMsgsFlag(String msgsFlag) {
         this.msgsFlag = msgsFlag;
+    }
+
+    public List<SelectItem> getAreaNameList() {
+        return areaNameList;
+    }
+
+    public void setAreaNameList(List<SelectItem> areaNameList) {
+        this.areaNameList = areaNameList;
+    }
+
+    public ToolsService getToolService() {
+        return toolService;
+    }
+
+    public void setToolService(ToolsService toolService) {
+        this.toolService = toolService;
+    }
+
+    public AreaName getAreaNameEnum() {
+        return areaNameEnum;
+    }
+
+    public void setAreaNameEnum(AreaName areaNameEnum) {
+        this.areaNameEnum = areaNameEnum;
     }
 }

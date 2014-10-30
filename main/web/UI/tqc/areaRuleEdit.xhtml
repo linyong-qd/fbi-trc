@@ -38,30 +38,27 @@
                 <p:tab title="行业领域规则编写">
                     <h:form>
                         <div id="areacodetable">
-                            <p:focus for="areacode"/>
+                            <p:focus for="areaName"/>
                             <p:growl id="msgs" showDetail="false" life="7000"/>
                             <p:panel style="margin-top:27px;align:right;" id="panel">
                                 <h:panelGrid columns="4" cellspacing="5"
                                              columnClasses="col-label,col-input,col-label2,col-input">
 
-                                    <h:outputLabel value="*行业领域名称:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" size="27" maxlength="16"/>
-
-                                    <h:outputLabel value="*行业领域编号:"/>
-                                    <p:inputText id="areacode" required="true" value="#{tqcRuleAreaAction.tqcRuleArea.areaCode}" size="27"
-                                                 maxlength="30" requiredMessage="必须输入行业领域编号！"/>
-
+                                    <h:outputLabel value="*行业领域:"/>
+                                    <h:selectOneMenu id="areaName" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" required="true" requiredMessage="必须输入行业领域名称！"  style="width: 178px;">
+                                        <f:selectItems value="#{tqcRuleAreaAction.areaNameList}"/>
+                                    </h:selectOneMenu>
 
                                     <h:outputLabel value="*单笔限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.singleLim}" size="27" maxlength="16"/>
+                                    <p:inputText required="true" requiredMessage="必须输入单笔限额！" value="#{tqcRuleAreaAction.tqcRuleArea.singleLim}" size="27" maxlength="16"/>
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.dayAmtLim}" size="27"
+                                    <p:inputText required="true" requiredMessage="必须输入日累计限额！" value="#{tqcRuleAreaAction.tqcRuleArea.dayAmtLim}" size="27"
                                                  maxlength="16"/>
                                     <h:outputLabel value="*月累计限额:"/>
                                     <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.monthAmtLim}" size="27"
                                                  maxlength="16" requiredMessage="必须输入月累计限额！"/>
                                     <!--<h:outputLabel value="*版本号:"/>
-                                    <p:inputText required="true" value="#{tqcRuleAreaAction.tqcRuleArea.recver}" size="27"
+                                    <p:inputText required="true" value="" size="27"
                                                  maxlength="16" requiredMessage="必须输入版本号！"/>-->
                                     <h:outputLabel value="备注:"/>
                                     <p:inputTextarea value="#{tqcRuleAreaAction.tqcRuleArea.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>
@@ -90,11 +87,12 @@
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
                                          emptyMessage="没有查询到数据记录...">
+
+                                <p:column headerText="行业领域名称" style="text-align: right">
+                                    <h:outputText value="#{tqcRuleAreaAction.areaNameEnum.valueOfAlias(record.areaName).title}"/>
+                                </p:column>
                                 <p:column headerText="行业领域编号" style="text-align: center">
                                     <h:outputText value="#{record.areaCode}"/>
-                                </p:column>
-                                <p:column headerText="行业领域名称" style="text-align: right">
-                                    <h:outputText value="#{record.areaName}"/>
                                 </p:column>
                                 <p:column headerText="单笔限额">
                                     <h:outputText value="#{record.singleLim}" style="float: right"/>
