@@ -55,7 +55,7 @@
                                                  maxlength="16" requiredMessage="必须输入客户姓名！"/>
 
                                     <h:outputLabel value="*项目编号:"/>
-                                    <p:inputText id="prjcode"  required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
+                                    <p:inputText id="prjcode" required="true" value="#{tqcRuleAcctAction.tqcRuleAcct.prjCode}" size="27"
                                                  maxlength="16" requiredMessage="必须输入项目编号！"/>
 
                                     <h:outputLabel value="*行业领域编号:"/>
@@ -63,16 +63,19 @@
                                                  maxlength="18" requiredMessage="必须输入行业领域编号！"/>
 
                                     <h:outputLabel value="*账号类型:"/>
-                                    <h:selectOneMenu id="acctType" value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"
-                                                     valueChangeListener="#{tqcRuleAcctAction.changeAcctType}"
-                                                     onchange="submit()"  immediate="true"
+
+                                    <p:selectOneMenu id="acctType"
+                                                     value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"
                                                      required="true" requiredMessage="必须输入账号类型！"  style="width: 178px;">
                                         <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
-                                    </h:selectOneMenu>
+                                        <p:ajax update="msgs,idForareaRuleFlag"
+                                                listener="#{tqcRuleAcctAction.changeAcctType}"/>
+                                    </p:selectOneMenu>
+
 
                                     <h:outputLabel value="单笔限额:"/>
                                     <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.singleLim}" size="27"
-                                                  maxlength="17" />
+                                                  maxlength="60" />
                                     <h:outputLabel value="日累计限额:"/>
                                     <p:inputText  value="#{tqcRuleAcctAction.tqcRuleAcct.dayAmtLim}" size="27"
                                                   maxlength="17" />
@@ -80,9 +83,13 @@
                                     <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.monthAmtLim}" size="27" maxlength="80" />
 
                                     <h:outputLabel  rendered="#{tqcRuleAcctAction.render}" value="*是否使用行业领域规则:" />
-                                    <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" rendered="#{tqcRuleAcctAction.render}" required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
+
+                                    <p:selectOneMenu id="idForareaRuleFlag"
+                                                     value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}"
+                                                     rendered="#{tqcRuleAcctAction.render}"
+                                                     required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
                                         <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
-                                    </h:selectOneMenu>
+                                    </p:selectOneMenu>
 
                                     <h:outputLabel value="备注:"/>
                                     <p:inputTextarea value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>

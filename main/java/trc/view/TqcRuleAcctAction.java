@@ -268,17 +268,14 @@ public class TqcRuleAcctAction {
      * 账号类型为对私时
      * @return
      */
-    public String changeAcctType(ValueChangeEvent event){
-        String  acctType=event.getNewValue().toString();//得到页面传过来的acctType
-        FacesContext facesContext=FacesContext.getCurrentInstance();
-        if("2".equals(acctType)){
+    public String changeAcctType(){
+
+        if("2".equals(tqcRuleAcct.getAcctType())){
             render=true;
-            //tqcRuleAcct.setAreaRuleFlag(String.valueOf(1));
         }else{
             render=false;
-            //tqcRuleAcct.setAreaRuleFlag(String.valueOf(0));
         }
-        facesContext.renderResponse();
+
         return null;
     }
 
