@@ -33,6 +33,8 @@ public class TqcRulePubAction {
     private static final Logger logger = LoggerFactory.getLogger(TqcRulePubAction.class);
 
     private String ruleType;
+    private String del_inputHidden;
+    private String msgsFlag;
 
     private TqcRulePub tqcRulePub;
     @ManagedProperty(value = "#{tqcRulePubService}")
@@ -81,11 +83,11 @@ public class TqcRulePubAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRulePub.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRulePub.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRulePub.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRulePub.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
@@ -96,7 +98,7 @@ public class TqcRulePubAction {
                 return null;
             }
             pubService.insertRule(tqcRulePub);
-            logger.info("公共规则新增规则成功！规则类型："+tqcRulePub.getRuleType()+"  单笔金额："+tqcRulePub.getSingleLim()+" 日累计限额:"+tqcRulePub.getDayTotalLim()+" 月累计限额:"+tqcRulePub.getMonthTotalLim());
+            logger.info("公共规则新增规则成功！规则类型："+tqcRulePub.getRuleType()+"  单笔金额："+tqcRulePub.getSingleLim()+" 日累计限额:"+tqcRulePub.getDayAmtLim()+" 月累计限额:"+tqcRulePub.getMonthAmtLim());
             MessageUtil.addInfo("公共规则新增规则成功。");
             ruleList.add(tqcRulePub);
         } catch (Exception e) {
@@ -112,7 +114,7 @@ public class TqcRulePubAction {
     public String onQuery() {
         try {
             ruleList = pubService.qryRuleByRuleType(tqcRulePub.getRuleType());
-            if (ruleList.size() == 0) {
+            if (ruleList.size() == 0&&!"delete".equals(msgsFlag)) {
                 MessageUtil.addWarn("没有查询到数据记录。");
             }
         } catch (Exception e) {
@@ -132,17 +134,17 @@ public class TqcRulePubAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRulePub.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRulePub.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRulePub.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRulePub.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
 
             pubService.updateRule(tqcRulePub);
-            logger.info("公共规则更新规则成功！规则类型："+tqcRulePub.getRuleType()+"  单笔金额："+tqcRulePub.getSingleLim()+" 日累计限额:"+tqcRulePub.getDayTotalLim()+" 月累计限额:"+tqcRulePub.getMonthTotalLim());
+            logger.info("公共规则更新规则成功！规则类型："+tqcRulePub.getRuleType()+"  单笔金额："+tqcRulePub.getSingleLim()+" 日累计限额:"+tqcRulePub.getDayAmtLim()+" 月累计限额:"+tqcRulePub.getMonthAmtLim());
             jscript = "<script language='javascript'>closeThisWindow('true');</script>";
         } catch (Exception e) {
             logger.error("更新公共规则信息失败。", e);
@@ -156,14 +158,15 @@ public class TqcRulePubAction {
      */
     public String onDelete() {
         try {
-            if (selectedRuleRecord == null) {
-                MessageUtil.addWarn("至少选择一笔记录！");
-                return null;
-            }
-            //pubService.deleteRule(tqcRulePub);
-            pubService.deleteRule(selectedRuleRecord);
-            ruleList.remove(selectedRuleRecord);
-            logger.info("公共规则删除规则成功！规则类型："+selectedRuleRecord.getRuleType()+"  单笔金额："+selectedRuleRecord.getSingleLim()+" 日累计限额:"+selectedRuleRecord.getDayTotalLim()+" 月累计限额:"+selectedRuleRecord.getMonthTotalLim());
+//            if (selectedRuleRecord == null) {
+//                MessageUtil.addWarn("至少选择一笔记录！");
+//                return null;
+//            }
+
+            tqcRulePub = pubService.qryRuleByKey(del_inputHidden);
+            pubService.deleteRule(tqcRulePub);
+            ruleList.remove(tqcRulePub);
+            logger.info("公共规则删除规则成功！规则类型："+tqcRulePub.getRuleType()+"  单笔金额："+tqcRulePub.getSingleLim()+" 日累计限额:"+tqcRulePub.getDayAmtLim()+" 月累计限额:"+tqcRulePub.getMonthAmtLim());
             //jscript = "<script language='javascript'>closeThisWindow('true');</script>";
         } catch (Exception e) {
             logger.error("删除公共规则信息失败。", e);
@@ -242,5 +245,21 @@ public class TqcRulePubAction {
 
     public void setJscript(String jscript) {
         this.jscript = jscript;
+    }
+
+    public String getDel_inputHidden() {
+        return del_inputHidden;
+    }
+
+    public void setDel_inputHidden(String del_inputHidden) {
+        this.del_inputHidden = del_inputHidden;
+    }
+
+    public String getMsgsFlag() {
+        return msgsFlag;
+    }
+
+    public void setMsgsFlag(String msgsFlag) {
+        this.msgsFlag = msgsFlag;
     }
 }

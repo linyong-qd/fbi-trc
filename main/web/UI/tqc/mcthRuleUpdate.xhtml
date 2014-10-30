@@ -36,7 +36,7 @@
                 <p:tab title="规则变更">
                     <h:form id="form">
                         <p:focus for="mchtcode"/>
-                        <p:messages id="msgs" showDetail="false"/>
+                        <p:growl id="msgs" showDetail="false"/>
                         <p:panel style="margin-top:10px" id="panel">
                             <h:panelGrid columns="2" cellspacing="5" columnClasses="col-1,col-2" style="text-align: right;">
                                 <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
@@ -44,7 +44,7 @@
                                     <p:inputText id="mchtcode" required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.mchtCode}" size="27"
                                                  maxlength="16" requiredMessage="必须输入收款客户号！" readonly="true"/>
                                     <h:outputLabel value="*项目编号:"/>
-                                    <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.prjCode}" size="27" maxlength="80" readonly="true"/>
+                                    <p:inputText required="true" requiredMessage="必须输入项目编号！" value="#{tqcRuleMchtAction.tqcRuleMcht.prjCode}" size="27" maxlength="80" readonly="true"/>
 
                                     <h:outputLabel value="收款单位名称:"/>
                                     <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.mchtName}" size="27" maxlength="80"/>
@@ -54,11 +54,11 @@
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
 
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.dayTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.dayAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
 
                                     <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
                                 </h:panelGrid>
                                 <h:panelGrid style="text-align: right;">

@@ -24,6 +24,22 @@
                     document.getElementById("tabview:form:qrybtn").click();
                 }
             }
+            //删除
+            function del(obj){
+
+                if(confirm("您确定删除该条记录吗？")){
+                    var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
+                            [0].innerHTML;
+                    document.getElementById("tabview:form:del_inputHidden").value=pkid;
+                    document.getElementById("tabview:form:hidden_del_btn").click();
+                    document.getElementById("tabview:form:qrybtn").click();
+                    document.getElementById("tabview:form:msgsFlag").value="delete";
+
+                }
+
+            }
+
+
         </script>
         <style type="text/css">
             .col-95 {
@@ -35,18 +51,21 @@
             }
         </style>
     </ui:define>
+
     <ui:define name="content">
         <div style="margin:5px">
-            <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="被扣单位规则管理">
+            <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal;">
+                <p:tab title="被扣单位规则管理" >
+
                     <h:form id="form">
                         <div id="qrytable">
                             <p:focus for="mchtcode"/>
-                            <p:growl id="msgs" showDetail="false"/>
+                            <p:growl id="msgs" showDetail="true"/>
+                            <!--<p:panel header="被扣单位规则管理" />-->
                             <p:panel style="margin-top:10px" id="panel">
                                 <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
-                                        <h:outputLabel value="*客户编号:"/>
+                                        <h:outputLabel  value="*客户编号:"/>
                                         <p:inputText id="mchtcode" value="#{tqcRuleAcctAction.acctCode}"
                                                      required="true"
                                                      requiredMessage="必须输入客户编号!"
@@ -65,10 +84,16 @@
 
                                     </h:panelGrid>
                                     <h:panelGrid>
+
                                         <p:commandButton style="width:90px;" id="qrybtn" value="查询"
                                                          action="#{tqcRuleAcctAction.onQuery}"
                                                          update="pdt,msgs">
                                         </p:commandButton>
+                                        <p:commandLink  id="hidden_del_btn" update="pdt"   action="#{tqcRuleAcctAction.onDelete}"  />
+                                        <h:inputHidden id="del_inputHidden" value="#{tqcRuleAcctAction.del_inputHidden}" />
+                                        <h:inputHidden id="msgsFlag" value="#{tqcRuleAcctAction.msgsFlag}" />
+
+
                                     </h:panelGrid>
                                 </h:panelGrid>
                             </p:panel>
@@ -88,9 +113,9 @@
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
                                          emptyMessage="没有查询到数据记录...">
-                                <p:column headerText="Pkid" style="display:none;">
+                            <p:column headerText="Pkid" style="display:none;">
                                     <h:outputText style="display: none;" value="#{record.mchtCode},#{record.prjCode},#{record.acctType}"/>
-                                </p:column>
+                            </p:column>
                                 <p:column headerText="客户编号" style="text-align: center">
                                     <h:outputText value="#{record.mchtCode}"/>
                                 </p:column>
@@ -110,18 +135,24 @@
                                     <h:outputText value="#{record.singleLim}"/>
                                 </p:column>
                                 <p:column headerText="日累计限额">
-                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.dayAmtLim}" style="float: right"/>
                                 </p:column>
 
                                 <p:column headerText="月累计限额">
-                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.monthAmtLim}" style="float: right"/>
                                 </p:column>
+
+                                <p:column headerText="是否使用行业领域规则" style="text-align: center">
+                                    <h:outputText
+                                            value="#{tqcRuleAcctAction.areaRuleFlagEnum.valueOfAlias(record.areaRuleFlag).title}"/>
+                                </p:column>
+
                                 <p:column headerText="操作" style="width:80px;text-align:center">
                                     <p:commandLink style="color:blue;align:center;" value="修改"
                                                    onclick="doPopupWindow(this);"/>&#160;&#160;
 
-                                    <p:commandLink style="color:blue;align:center;" value="作废"
-                                                   update="pdt"  action="#{tqcRuleAcctAction.onDelete}"/>
+                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del(this)"   />
+
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>

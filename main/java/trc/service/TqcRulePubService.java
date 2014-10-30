@@ -41,7 +41,7 @@ public class TqcRulePubService {
         rulePub.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         OperatorManager om = ToolsService.getOperatorManager();
         rulePub.setOperId(om.getOperatorId());
-        rulePub.setRecver(new BigDecimal(1));
+        rulePub.setRecver(1);
         return tqcRulePubMapper.insert(rulePub);
     }
 
@@ -65,8 +65,8 @@ public class TqcRulePubService {
         TqcRulePub rule = new TqcRulePub();
         rule.setRuleType(rulePub.getRuleType());
         rule.setSingleLim(rulePub.getSingleLim());
-        rule.setDayTotalLim(rulePub.getDayTotalLim());
-        rule.setMonthTotalLim(rulePub.getMonthTotalLim());
+        rule.setDayAmtLim(rulePub.getDayAmtLim());
+        rule.setMonthAmtLim(rulePub.getMonthAmtLim());
         rule.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         OperatorManager om = ToolsService.getOperatorManager();
         rule.setOperId(om.getOperatorId());

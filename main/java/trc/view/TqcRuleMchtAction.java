@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import skyline.common.utils.MessageUtil;
+import trc.repository.model.TqcRuleAcctKey;
 import trc.repository.model.TqcRuleMcht;
 import trc.repository.model.TqcRuleMchtKey;
 import trc.service.TqcRuleMchtService;
@@ -28,6 +29,8 @@ public class TqcRuleMchtAction {
 
     private String mchtCode;
     private String prjCode;
+    private String del_inputHidden;
+    private String msgsFlag;
     private TqcRuleMcht tqcRuleMcht;
     @ManagedProperty(value = "#{tqcRuleMchtService}")
     private  TqcRuleMchtService mchtService;
@@ -66,11 +69,11 @@ public class TqcRuleMchtAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
@@ -97,7 +100,7 @@ public class TqcRuleMchtAction {
     public String onQuery() {
         try {
             ruleList = mchtService.qryRuleByMchtCodePrjCode(mchtCode,prjCode);
-            if (ruleList.size() == 0) {
+            if (ruleList.size() == 0&&!"delete".equals(msgsFlag)) {
                 MessageUtil.addWarn("没有查询到数据记录。");
             }
         } catch (Exception e) {
@@ -116,11 +119,11 @@ public class TqcRuleMchtAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleMcht.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
@@ -139,13 +142,19 @@ public class TqcRuleMchtAction {
      */
     public String onDelete() {
         try {
-            if (selectedRuleRecord == null) {
-                MessageUtil.addWarn("请选择一笔记录！");
-                return null;
-            }
-            mchtService.deleteRule(selectedRuleRecord);
-            ruleList.remove(selectedRuleRecord);
-            logger.info("收款单位规则删除成功！收款单位客户号："+selectedRuleRecord.getMchtCode()+"  项目编号："+selectedRuleRecord.getPrjCode());
+//            if (selectedRuleRecord == null) {
+//                MessageUtil.addWarn("请选择一笔记录！");
+//                return null;
+//            }
+            String[] key = del_inputHidden.split(",");
+            TqcRuleMchtKey pk = new TqcRuleMchtKey();
+            pk.setMchtCode(key[0]);
+            pk.setPrjCode(key[1]);
+            tqcRuleMcht = mchtService.qryRuleByKey(pk);
+
+            mchtService.deleteRule(tqcRuleMcht);
+            ruleList.remove(tqcRuleMcht);
+            logger.info("收款单位规则删除成功！收款单位客户号："+tqcRuleMcht.getMchtCode()+"  项目编号："+tqcRuleMcht.getPrjCode());
             MessageUtil.addInfo("收款单位规则删除成功。");
         } catch (Exception e) {
             logger.error("更新规则信息失败。", e);
@@ -212,5 +221,21 @@ public class TqcRuleMchtAction {
 
     public void setJscript(String jscript) {
         this.jscript = jscript;
+    }
+
+    public String getDel_inputHidden() {
+        return del_inputHidden;
+    }
+
+    public void setDel_inputHidden(String del_inputHidden) {
+        this.del_inputHidden = del_inputHidden;
+    }
+
+    public String getMsgsFlag() {
+        return msgsFlag;
+    }
+
+    public void setMsgsFlag(String msgsFlag) {
+        this.msgsFlag = msgsFlag;
     }
 }

@@ -51,18 +51,18 @@
                                     <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.mchtName}" size="27" maxlength="80"/>
 
                                     <h:outputLabel value="*项目编号:"/>
-                                    <p:inputText value="#{tqcRuleMchtAction.tqcRuleMcht.prjCode}" size="27" maxlength="80"/>
+                                    <p:inputText  required="true" requiredMessage="必须输入项目编号！" value="#{tqcRuleMchtAction.tqcRuleMcht.prjCode}" size="27" maxlength="80"/>
 
                                     <h:outputLabel value="*单笔限额:"/>
                                     <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.singleLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
 
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.dayTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.dayAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
 
                                     <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
 
                                     <h:outputLabel/>
@@ -105,10 +105,10 @@
                                     <h:outputText value="#{record.singleLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="日累计限额">
-                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.dayAmtLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="月累计限额">
-                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.monthAmtLim}" style="float: right"/>
                                 </p:column>
                             </p:dataTable>
                         </div>

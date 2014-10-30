@@ -29,6 +29,8 @@ public class TqcRuleAreaAction {
     private static final Logger logger = LoggerFactory.getLogger(TqcRuleAreaAction.class);
 
     private String areaCode;
+    private String del_inputHidden;
+    private String msgsFlag;
     //private String prjCode;
     private TqcRuleArea tqcRuleArea;
     @ManagedProperty(value = "#{tqcRuleAreaService}")
@@ -69,11 +71,11 @@ public class TqcRuleAreaAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
                 return null;
             }
@@ -100,7 +102,7 @@ public class TqcRuleAreaAction {
         try {
 
             ruleList = areaService.qryRuleByAreaCode(areaCode);
-            if (ruleList.size() == 0) {
+            if (ruleList.size() == 0&&!"delete".equals(msgsFlag)) {
                 MessageUtil.addWarn("没有查询到数据记录。");
             }
         } catch (Exception e) {
@@ -119,12 +121,18 @@ public class TqcRuleAreaAction {
                 MessageUtil.addError("单笔限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getDayTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getDayAmtLim()) >= 0) {
                 MessageUtil.addError("日累计限额金额输入有误!");
                 return null;
             }
-            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getMonthTotalLim()) >= 0) {
+            if (new BigDecimal(0.00).compareTo(tqcRuleArea.getMonthAmtLim()) >= 0) {
                 MessageUtil.addError("月累计限额金额输入有误!");
+                return null;
+            }
+
+            // 确认该规则是否已经存在
+            if (areaService.isRuleExist(tqcRuleArea.getAreaCode().trim())) {
+                MessageUtil.addError("该规则已存在!");
                 return null;
             }
             areaService.updateRule(tqcRuleArea);
@@ -142,14 +150,15 @@ public class TqcRuleAreaAction {
      */
     public String onDelete() {
         try {
-            if (selectedRuleRecord == null) {
-                MessageUtil.addWarn("至少选择一笔记录！");
-                return null;
-            }
-            areaService.deleteRule(selectedRuleRecord);
-            ruleList.remove(selectedRuleRecord);
+//            if (selectedRuleRecord == null) {
+//                MessageUtil.addWarn("至少选择一笔记录！");
+//                return null;
+//            }
+            tqcRuleArea= areaService.qryRuleByKey(del_inputHidden);
+            areaService.deleteRule(tqcRuleArea);
+            ruleList.remove(areaService.qryRuleByKey(del_inputHidden));
             //areaService.deleteRule(tqcRuleArea);
-            logger.info("行业领域删除规则成功！行业领域编号："+selectedRuleRecord.getAreaCode()+"  行业领域名称："+selectedRuleRecord.getAreaName());
+            logger.info("行业领域删除规则成功！行业领域编号："+tqcRuleArea.getAreaCode()+"  行业领域名称："+tqcRuleArea.getAreaName());
             //jscript = "<script language='javascript'>closeThisWindow('true');</script>";
         } catch (Exception e) {
             logger.error("删除行业领域规则信息失败。", e);
@@ -205,5 +214,21 @@ public class TqcRuleAreaAction {
 
     public void setJscript(String jscript) {
         this.jscript = jscript;
+    }
+
+    public String getDel_inputHidden() {
+        return del_inputHidden;
+    }
+
+    public void setDel_inputHidden(String del_inputHidden) {
+        this.del_inputHidden = del_inputHidden;
+    }
+
+    public String getMsgsFlag() {
+        return msgsFlag;
+    }
+
+    public void setMsgsFlag(String msgsFlag) {
+        this.msgsFlag = msgsFlag;
     }
 }

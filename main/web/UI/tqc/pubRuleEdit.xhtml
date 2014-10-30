@@ -54,11 +54,11 @@
                                                  maxlength="17" requiredMessage="必须输入单笔限额！"/>
 
                                     <h:outputLabel value="*日累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.dayTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.dayAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入日累计限额！"/>
 
                                     <h:outputLabel value="*月累计限额:"/>
-                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.monthTotalLim}" size="27"
+                                    <p:inputText required="true" value="#{tqcRulePubAction.tqcRulePub.monthAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入月累计限额！"/>
 
                                     <h:outputLabel value="备注:"/>
@@ -101,10 +101,10 @@
                                     <h:outputText value="#{record.singleLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="日累计限额">
-                                    <h:outputText value="#{record.dayTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.dayAmtLim}" style="float: right"/>
                                 </p:column>
                                 <p:column headerText="月累计限额">
-                                    <h:outputText value="#{record.monthTotalLim}" style="float: right"/>
+                                    <h:outputText value="#{record.monthAmtLim}" style="float: right"/>
                                 </p:column>
                             </p:dataTable>
                         </div>

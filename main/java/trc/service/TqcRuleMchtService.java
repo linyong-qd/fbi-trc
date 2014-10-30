@@ -40,7 +40,7 @@ public class TqcRuleMchtService {
         ruleMcht.setOperDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         OperatorManager om = ToolsService.getOperatorManager();
         ruleMcht.setOperId(om.getOperatorId());
-        ruleMcht.setRecver(new BigDecimal(1));
+        ruleMcht.setRecver(1);
         return tqcRuleMchtMapper.insert(ruleMcht);
     }
 
