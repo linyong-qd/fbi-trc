@@ -116,30 +116,30 @@
                             <p:column headerText="Pkid" style="display:none;">
                                     <h:outputText style="display: none;" value="#{record.mchtCode},#{record.prjCode},#{record.acctType}"/>
                             </p:column>
-                                <p:column headerText="客户编号" style="text-align: center">
+                                <p:column headerText="客户编号" style="text-align: left">
                                     <h:outputText value="#{record.mchtCode}"/>
                                 </p:column>
-                                <p:column headerText="客户姓名" style="text-align: right">
+                                <p:column headerText="客户姓名" style="text-align: left">
                                     <h:outputText value="#{record.mchtName}"/>
                                 </p:column>
-                                <p:column headerText="项目编号" style="text-align: right">
+                                <p:column headerText="项目编号" style="text-align: left">
                                     <h:outputText value="#{record.prjCode}"/>
                                 </p:column>
-                                <p:column headerText="账号类型" style="text-align: right">
+                                <p:column headerText="账号类型" style="text-align: left">
                                     <h:outputText value="#{tqcRuleAcctAction.acctTypeEnum.valueOfAlias(record.acctType).title}"/>
                                 </p:column>
-                                <p:column headerText="行业领域编号" style="text-align: right">
+                                <p:column headerText="行业领域编号" style="text-align: left">
                                     <h:outputText value="#{record.areaCode}"/>
                                 </p:column>
-                                <p:column headerText="单笔限额" style="text-align: center">
+                                <p:column headerText="单笔限额" style="text-align: left">
                                     <h:outputText value="#{record.singleLim}"/>
                                 </p:column>
-                                <p:column headerText="日累计限额">
-                                    <h:outputText value="#{record.dayAmtLim}" style="float: right"/>
+                                <p:column headerText="日累计限额" style="text-align: left">
+                                    <h:outputText value="#{record.dayAmtLim}" />
                                 </p:column>
 
-                                <p:column headerText="月累计限额">
-                                    <h:outputText value="#{record.monthAmtLim}" style="float: right"/>
+                                <p:column headerText="月累计限额" style="text-align: left">
+                                    <h:outputText value="#{record.monthAmtLim}"/>
                                 </p:column>
 
                                 <p:column headerText="是否使用行业领域规则" style="text-align: center">
