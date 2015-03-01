@@ -15,22 +15,22 @@
                         event.keyCode = 9;
                 }
             }
-            function doPopupWindow(obj) {
-                var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
-                        [0].innerHTML;
+            function doPopupWindow(areaCode) {
+                //var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+                var pkid=areaCode;
                 var sfeature = "dialogwidth:850px; dialogheight:320px;center:yes;help:no;resizable:yes;scroll:no;status:no";
-                var rtn = dialog("areaRuleUpdate.xhtml?pkid=" + pkid + "&amp;action=update&amp;ruleType=area", null, sfeature);
+                var rtn = dialog("areaRuleUpdate.xhtml?pkid=" + escape(pkid) + "&amp;action=update&amp;ruleType=area", null, sfeature);
                 if (rtn == "1") {
                     document.getElementById("tabview:form:qrybtn").click();
                 }
             }
 
             //删除
-            function del(obj){
+            function del(areaCode){
 
                 if(confirm("您确定删除该条记录吗？")){
-                    var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
-                            [0].innerHTML;
+                    //var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+                    var pkid=areaCode;
                     document.getElementById("tabview:form:del_inputHidden").value=pkid;
                     document.getElementById("tabview:form:hidden_del_btn").click();
                     document.getElementById("tabview:form:qrybtn").click();
@@ -63,9 +63,9 @@
                                 <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
 
-                                        <h:outputLabel value="*行业领域名称:"/>
+                                        <h:outputLabel value="行业领域名称:"/>
                                         <h:selectOneMenu id="areaName" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}"
-                                                         required="true" requiredMessage="必须输入行业领域名称！"  style="width: 178px;">
+                                                        style="width: 178px;">
                                             <f:selectItems value="#{tqcRuleAreaAction.areaNameList}"/>
                                         </h:selectOneMenu>
 
@@ -99,9 +99,7 @@
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
                                          emptyMessage="没有查询到数据记录...">
-                                <p:column headerText="Pkid" style="display:none;">
-                                    <h:outputText style="display: none;" value="#{record.areaCode}"/>
-                                </p:column>
+
                                 <p:column headerText="行业领域名称" style="text-align: right">
                                     <h:outputText value="#{tqcRuleAreaAction.areaNameEnum.valueOfAlias(record.areaName).title}"/>
                                 </p:column>
@@ -121,16 +119,15 @@
                                 </p:column>
                                 <p:column headerText="操作" style="width:80px;text-align:center">
                                     <p:commandLink style="color:blue;align:center;" value="修改"
-                                                   onclick="doPopupWindow(this);"/>&#160;&#160;&#160;&#160;
+                                                   onclick="doPopupWindow('#{record.areaCode}');"/>&#160;
 
-                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del(this)"   />
+                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del('#{record.areaCode}')"   />
 
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>
-                                        <p:column colspan="10"
-                                                  footerText="共查询到#{fn:length(tqcRuleAreaAction.ruleList)}笔记
-录"
+                                        <p:column colspan="7"
+                                                  footerText="共查询到#{fn:length(tqcRuleAreaAction.ruleList)}笔记录"
                                                   style="text-align:right"/>
                                     </p:row>
                                 </p:columnGroup>

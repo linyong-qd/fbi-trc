@@ -28,7 +28,11 @@ public class TqcRulePubService {
 
     public List<TqcRulePub> qryRuleByRuleType(String ruleType){
         TqcRulePubExample example = new TqcRulePubExample();
-        example.createCriteria().andRuleTypeEqualTo(ruleType);
+       TqcRulePubExample.Criteria criteria= example.createCriteria();
+        if(ruleType!=null&&!"".equals(ruleType)){
+            criteria .andRuleTypeEqualTo(ruleType);
+        }
+
         return tqcRulePubMapper.selectByExample(example);
     }
 
@@ -72,5 +76,15 @@ public class TqcRulePubService {
         rule.setOperId(om.getOperatorId());
         return rule;
     }
+
+    /**
+     * 页面初始化时显示的全部内容
+     */
+    /*
+    public List<TqcRulePub> getAllTqcRulePub(){
+        TqcRulePubExample example = new TqcRulePubExample();
+        example.createCriteria();
+        return tqcRulePubMapper.selectByExample(example);
+    }*/
 
 }

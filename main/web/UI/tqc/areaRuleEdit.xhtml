@@ -45,7 +45,8 @@
                                              columnClasses="col-label,col-input,col-label2,col-input">
 
                                     <h:outputLabel value="*行业领域:"/>
-                                    <h:selectOneMenu id="areaName" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" required="true" requiredMessage="必须输入行业领域名称！"  style="width: 178px;">
+                                    <h:selectOneMenu id="areaName" value="#{tqcRuleAreaAction.tqcRuleArea.areaName}" required="true" requiredMessage="必须输入行业领域名称！"
+                                                     style="width: 98%;">
                                         <f:selectItems value="#{tqcRuleAreaAction.areaNameList}"/>
                                     </h:selectOneMenu>
 
@@ -61,7 +62,7 @@
                                     <p:inputText required="true" value="" size="27"
                                                  maxlength="16" requiredMessage="必须输入版本号！"/>-->
                                     <h:outputLabel value="备注:"/>
-                                    <p:inputTextarea value="#{tqcRuleAreaAction.tqcRuleArea.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>
+                                    <p:inputTextarea value="#{tqcRuleAreaAction.tqcRuleArea.remark}" size="27" style="width: 95%;height: 60px;" maxlength="100"/>
 
                                 </h:panelGrid>
                                 <p:separator style="margin-top:27px"/>

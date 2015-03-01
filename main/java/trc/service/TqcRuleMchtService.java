@@ -29,7 +29,16 @@ public class TqcRuleMchtService {
 
     public List<TqcRuleMcht> qryRuleByMchtCodePrjCode(String mchtCode,String prjCode){
         TqcRuleMchtExample example = new TqcRuleMchtExample();
-        example.createCriteria().andMchtCodeEqualTo(mchtCode).andPrjCodeEqualTo(prjCode);
+        TqcRuleMchtExample.Criteria criteria=example.createCriteria();
+        if(mchtCode!=null&&!"".equals(mchtCode)){
+            criteria.andMchtCodeEqualTo(mchtCode);
+        }
+        if(prjCode!=null&&!"".equals(prjCode)){
+            criteria.andPrjCodeEqualTo(prjCode);
+        }
+
+       // example.createCriteria().andMchtCodeEqualTo(mchtCode).andPrjCodeEqualTo(prjCode);
+
         return tqcRuleMchtMapper.selectByExample(example);
     }
     public boolean isRuleExist(String mchtCode,String prjCode) {
@@ -62,4 +71,14 @@ public class TqcRuleMchtService {
     public TqcRuleMcht qryRuleByKey(TqcRuleMchtKey key){
         return tqcRuleMchtMapper.selectByPrimaryKey(key);
     }
+
+    /**
+     * 页面初始化查询全部内容
+     */
+    /*
+    public List<TqcRuleMcht> getAllTqcRuleMcht(){
+        TqcRuleMchtExample example = new TqcRuleMchtExample();
+        example.createCriteria();
+        return tqcRuleMchtMapper.selectByExample(example);
+    }*/
 }

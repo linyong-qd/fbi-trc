@@ -15,21 +15,22 @@
                         event.keyCode = 9;
                 }
             }
-            function doPopupWindow(obj) {
-                var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+            function doPopupWindow(mchtCode,prjCode) {
+                //var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+                var pkid=mchtCode+","+prjCode;
                 var sfeature = "dialogwidth:850px; dialogheight:320px;center:yes;help:no;resizable:yes;scroll:no;status:no";
-                var rtn = dialog("mcthRuleUpdate.xhtml?pkid=" + pkid + "&amp;action=update&amp;ruleType=mcht", null, sfeature);
+                var rtn = dialog("mcthRuleUpdate.xhtml?pkid=" + escape(pkid) + "&amp;action=update&amp;ruleType=mcht", null, sfeature);
                 if (rtn == "1") {
                     document.getElementById("tabview:form:qrybtn").click();
                 }
             }
 
             //删除
-            function del(obj){
+            function del(mchtCode,prjCode){
 
                 if(confirm("您确定删除该条记录吗？")){
-                    var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
-                            [0].innerHTML;
+                   // var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+                    var pkid=mchtCode+","+prjCode;
                     document.getElementById("tabview:form:del_inputHidden").value=pkid;
                     document.getElementById("tabview:form:hidden_del_btn").click();
                     document.getElementById("tabview:form:qrybtn").click();
@@ -59,17 +60,15 @@
                             <p:focus for="mchtcode"/>
                             <p:growl id="msgs" showDetail="false"/>
                             <p:panel style="margin-top:10px">
-                                <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
+                                <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
-                                        <h:outputLabel value="*收款单位客户号:"/>
+                                        <h:outputLabel value="收款单位客户号:"/>
                                         <p:inputText id="mchtcode" value="#{tqcRuleMchtAction.mchtCode}"
-                                                     required="true"
-                                                     requiredMessage="必须输入收款客户号!"
+
                                                      size="30"/>
-                                        <h:outputLabel value="*项目编号:"/>
+                                        <h:outputLabel value="项目编号:"/>
                                         <p:inputText id="prjCode" value="#{tqcRuleMchtAction.prjCode}"
-                                                     required="true"
-                                                     requiredMessage="必须输入项目编号!"
+
                                                      size="30"/>
 
                                     </h:panelGrid>
@@ -101,16 +100,14 @@
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
                                          emptyMessage="没有查询到数据记录...">
-                                <p:column headerText="Pkid" style="display:none;">
-                                    <h:outputText style="display: none;" value="#{record.mchtCode},#{record.prjCode}"/>
-                                </p:column>
+
                                 <p:column headerText="收款客户号" style="text-align: center">
                                     <h:outputText value="#{record.mchtCode}"/>
                                 </p:column>
                                 <p:column headerText="项目编号" style="text-align: right">
                                     <h:outputText value="#{record.prjCode}"/>
                                 </p:column>
-                                <p:column headerText="收款客户名称" style="text-align: center">
+                                <p:column headerText="收款单位名称" style="text-align: center">
                                     <h:outputText value="#{record.mchtName}"/>
                                 </p:column>
                                 <p:column headerText="单笔限额">
@@ -124,14 +121,14 @@
                                 </p:column>
                                 <p:column headerText="操作" style="width:80px;text-align:center">
                                     <p:commandLink style="color:blue;align:center;" value="修改"
-                                                   onclick="doPopupWindow(this);"/>&#160;&#160;&#160;&#160;
+                                                   onclick="doPopupWindow('#{record.mchtCode}','#{record.prjCode}');"/>&#160;
 
-                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del(this)"   />
+                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del('#{record.mchtCode}','#{record.prjCode}')"   />
 
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>
-                                        <p:column colspan="10"
+                                        <p:column colspan="8"
                                                   footerText="共查询到#{fn:length(tqcRuleMchtAction.ruleList)}笔记录"
                                                   style="text-align:right"/>
                                     </p:row>

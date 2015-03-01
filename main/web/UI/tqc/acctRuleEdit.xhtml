@@ -39,7 +39,7 @@
         <div style="margin-left: 5px;">
 
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="被扣单位规则编写">
+                <p:tab title="被扣账号规则编写">
                     <h:form id="form">
                         <div id="acctruletable">
                             <p:focus for="mchtcode"/>
@@ -73,7 +73,7 @@
                                         <h:outputLabel value="*账号类型:"/>
                                         <p:selectOneMenu id="acctType"
                                                          value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"
-                                                         required="true" requiredMessage="必须输入账号类型！"  style="width: 178px;">
+                                                         required="true" requiredMessage="必须输入账号类型！"  style="width: 95%;">
                                             <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
                                             <p:ajax update="msgs,idForPanelGrid"
                                                     listener="#{tqcRuleAcctAction.changeAcctType}"/>
@@ -83,7 +83,7 @@
                                         <p:selectOneMenu id="idForareaRuleFlag"
                                                          value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}"
                                                          rendered="#{tqcRuleAcctAction.render}"
-                                                         required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 178px;'>
+                                                         required="true" requiredMessage="必须输入是否使用行业领域规则!"  style='width: 97%;'>
                                             <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
                                         </p:selectOneMenu>
                                 </h:panelGrid>
@@ -100,7 +100,7 @@
                                     <h:outputLabel value="月累计限额:"/>
                                     <p:inputText value="#{tqcRuleAcctAction.tqcRuleAcct.monthAmtLim}" size="27" maxlength="80" />
                                     <h:outputLabel value="备注:"/>
-                                    <p:inputTextarea value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27" style="width: 170px;height: 60px;" maxlength="100"/>
+                                    <p:inputTextarea value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27" style="width: 95%;height: 60px;" maxlength="100"/>
                                     <h:outputLabel/>
 
                                 </h:panelGrid>

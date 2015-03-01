@@ -15,21 +15,23 @@
                         event.keyCode = 9;
                 }
             }
-            function doPopupWindow(obj) {
-                var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
-                        [0].innerHTML;
+            function doPopupWindow(mchtCode,prjCode,acctType) {
+               // var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0].innerHTML;
+                var pkid=mchtCode+","+prjCode+","+acctType;
+
                 var sfeature = "dialogwidth:850px; dialogheight:320px;center:yes;help:no;resizable:yes;scroll:no;status:no";
-                var rtn = dialog("acctRuleUpdate.xhtml?pkid=" + pkid + "&amp;action=update&amp;ruleType=acct", null, sfeature);
+                var rtn = dialog("acctRuleUpdate.xhtml?pkid=" + escape(pkid)+ "&amp;action=update&amp;ruleType=acct", null, sfeature);
                 if (rtn == "1") {
                     document.getElementById("tabview:form:qrybtn").click();
                 }
             }
             //删除
-            function del(obj){
+            function del(mchtCode,prjCode,acctType){
 
                 if(confirm("您确定删除该条记录吗？")){
-                    var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
-                            [0].innerHTML;
+                    //var pkid = obj.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].childNodes
+                     //       [0].innerHTML;
+                    var pkid=mchtCode+","+prjCode+","+acctType;
                     document.getElementById("tabview:form:del_inputHidden").value=pkid;
                     document.getElementById("tabview:form:hidden_del_btn").click();
                     document.getElementById("tabview:form:qrybtn").click();
@@ -55,30 +57,28 @@
     <ui:define name="content">
         <div style="margin:5px">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal;">
-                <p:tab title="被扣单位规则管理" >
+                <p:tab title="被扣账号规则管理" >
 
                     <h:form id="form">
                         <div id="qrytable">
                             <p:focus for="mchtcode"/>
-                            <p:growl id="msgs" showDetail="true"/>
+                            <p:growl id="msgs" showDetail="false"/>
                             <!--<p:panel header="被扣单位规则管理" />-->
                             <p:panel style="margin-top:10px" id="panel">
                                 <h:panelGrid columns="2" cellspacing="5" columnClasses="col-95,col-5">
                                     <h:panelGrid columns="4" cellspacing="5" style="text-align: right;">
-                                        <h:outputLabel  value="*客户编号:"/>
+                                        <h:outputLabel  value="客户编号:"/>
                                         <p:inputText id="mchtcode" value="#{tqcRuleAcctAction.acctCode}"
-                                                     required="true"
-                                                     requiredMessage="必须输入客户编号!"
+
                                                      size="30"/>
 
-                                        <h:outputLabel value="*项目编号:"/>
+                                        <h:outputLabel value="项目编号:"/>
                                         <p:inputText id="prjCode" value="#{tqcRuleAcctAction.prjCode}"
-                                                     required="true"
-                                                     requiredMessage="必须输入项目编号!"
+
                                                      size="30"/>
 
                                         <h:outputLabel value="账号类型:"/>
-                                        <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" style="width: 190px;">
+                                        <h:selectOneMenu value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}" style="width: 100%;">
                                             <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}"/>
                                         </h:selectOneMenu>
 
@@ -113,9 +113,7 @@
                                          paginator="true" rows="15" paginatorPosition="bottom"
                                          rowsPerPageTemplate="100,50,30,15,5"
                                          emptyMessage="没有查询到数据记录...">
-                            <p:column headerText="Pkid" style="display:none;">
-                                    <h:outputText style="display: none;" value="#{record.mchtCode},#{record.prjCode},#{record.acctType}"/>
-                            </p:column>
+
                                 <p:column headerText="客户编号" style="text-align: left">
                                     <h:outputText value="#{record.mchtCode}"/>
                                 </p:column>
@@ -149,14 +147,14 @@
 
                                 <p:column headerText="操作" style="width:80px;text-align:center">
                                     <p:commandLink style="color:blue;align:center;" value="修改"
-                                                   onclick="doPopupWindow(this);"/>&#160;&#160;
+                                                   onclick="doPopupWindow('#{record.mchtCode}','#{record.prjCode}','#{record.acctType}');"/>&#160;
 
-                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del(this)"   />
+                                    <p:commandLink id="del" style="color:blue;align:center;" value="作废" onclick="del('#{record.mchtCode}','#{record.prjCode}','#{record.acctType}')"   />
 
                                 </p:column>
                                 <p:columnGroup type="footer">
                                     <p:row>
-                                        <p:column colspan="10"
+                                        <p:column colspan="11"
                                                   footerText="共查询到#{fn:length(tqcRuleAcctAction.ruleList)}笔记录"
                                                   style="text-align:right"/>
                                     </p:row>

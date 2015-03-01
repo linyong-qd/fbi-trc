@@ -52,6 +52,7 @@ public class TqcRulePubAction {
         tqcRulePub = new TqcRulePub();
         ruleTypeList = toolService.getEnuSelectItemList("RULETYPE",false,false);
         ruleTypeList.add(0, new SelectItem("", ""));
+        ruleList=pubService.qryRuleByRuleType(null);//getAllTqcRulePub();
         initRuleInfo();
     }
 

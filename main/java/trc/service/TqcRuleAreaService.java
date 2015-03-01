@@ -26,7 +26,11 @@ public class TqcRuleAreaService {
 
     public List<TqcRuleArea> qryRuleByAreaCode(String areaCode){
         TqcRuleAreaExample example = new TqcRuleAreaExample();
-        example.createCriteria().andAreaCodeEqualTo(areaCode);//.andPrjCodeEqualTo(prjCode);
+        TqcRuleAreaExample.Criteria criteria= example.createCriteria();
+        if(areaCode!=null&&!"".equals(areaCode)){
+            criteria.andAreaCodeEqualTo(areaCode);//.andPrjCodeEqualTo(prjCode);
+        }
+
         return tqcRuleAreaMapper.selectByExample(example);
     }
     public boolean isRuleExist(String areaCode) {
@@ -70,5 +74,16 @@ public class TqcRuleAreaService {
         return rule;
     }
 
+    /**
+     * 页面初始化时显示的全部内容
+     */
+    /*
+    public List<TqcRuleArea> getAllTqcRulePub(){
+        TqcRuleAreaExample example = new TqcRuleAreaExample();
+        example.createCriteria();
+        return tqcRuleAreaMapper.selectByExample(example);
+
+    }
+  */
 
 }

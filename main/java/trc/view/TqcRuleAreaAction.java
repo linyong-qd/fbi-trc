@@ -53,6 +53,7 @@ public class TqcRuleAreaAction {
         tqcRuleArea = new TqcRuleArea();
         areaNameList = toolService.getEnuSelectItemList("AREANAME",false,false);
         areaNameList.add(0, new SelectItem("", ""));
+        ruleList=areaService.qryRuleByAreaCode(null);//.getAllTqcRulePub();
         initRuleInfo();
     }
 

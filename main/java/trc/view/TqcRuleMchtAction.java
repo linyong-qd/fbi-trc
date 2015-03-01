@@ -41,6 +41,8 @@ public class TqcRuleMchtAction {
     @PostConstruct
     public void init() {
         tqcRuleMcht = new TqcRuleMcht();
+        //页面初始化显示的全部内容
+        ruleList= mchtService.qryRuleByMchtCodePrjCode(null,null);//getAllTqcRuleMcht();
         initRuleInfo();
     }
 

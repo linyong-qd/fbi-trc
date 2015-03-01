@@ -27,10 +27,17 @@ public class TqcRuleAcctService {
 
     public List<TqcRuleAcct> qryRuleByAcctCodePrjCodeAcctType(String acctCode,String prjCode,String acctType){
         TqcRuleAcctExample example = new TqcRuleAcctExample();
-        if(acctType==null||"".equals(acctType)){
-            example.createCriteria().andPrjCodeEqualTo(prjCode).andMchtCodeEqualTo(acctCode);
-        }else{
-            example.createCriteria().andAcctTypeEqualTo(acctType).andPrjCodeEqualTo(prjCode).andMchtCodeEqualTo(acctCode);
+        TqcRuleAcctExample.Criteria criteria= example.createCriteria();
+        if(acctType!=null&&!"".equals(acctType)){
+            criteria.andAcctTypeEqualTo(acctType);
+            //example.createCriteria().andPrjCodeEqualTo(prjCode).andMchtCodeEqualTo(acctCode);
+        }
+        if(prjCode!=null&&!"".equals(prjCode)){
+            criteria.andPrjCodeEqualTo(prjCode);
+            //example.createCriteria().andAcctTypeEqualTo(acctType).andPrjCodeEqualTo(prjCode).andMchtCodeEqualTo(acctCode);
+        }
+        if(acctCode!=null&&!"".equals(acctCode)){
+            criteria.andMchtCodeEqualTo(acctCode);
         }
 
         return tqcRuleAcctMapper.selectByExample(example);
@@ -80,4 +87,12 @@ public class TqcRuleAcctService {
         rule.setOperId(om.getOperatorId());
         return rule;
     }
+
+    //页面初始化执行查询
+    /*
+    public List<TqcRuleAcct> getAllTqcRuleAcct(){
+        TqcRuleAcctExample example = new TqcRuleAcctExample();
+        example.createCriteria();
+       return tqcRuleAcctMapper.selectByExample(example);
+    }*/
 }

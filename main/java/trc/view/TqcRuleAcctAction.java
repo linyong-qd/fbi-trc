@@ -65,6 +65,8 @@ public class TqcRuleAcctAction {
         tqcRuleAcct = new TqcRuleAcct();
         acctTypeList = toolService.getEnuSelectItemList("ACCTTYPE",false,false);
         acctTypeList.add(0, new SelectItem("", ""));
+        //页面初始化的时候显示全部内容
+        ruleList= acctService.qryRuleByAcctCodePrjCodeAcctType(null,null,null);//.getAllTqcRuleAcct();
 
         areaRuleFlagList = toolService.getEnuSelectItemList("AREARULEFLAG",false,false);
         areaRuleFlagList.add(0, new SelectItem("", ""));

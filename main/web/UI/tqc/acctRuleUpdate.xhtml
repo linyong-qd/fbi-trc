@@ -49,7 +49,7 @@
     <ui:define name="content">
         <div style="margin:5px">
             <p:tabView id="tabview" dynamic="true" cache="false" style="font-weight:normal;font-style:normal">
-                <p:tab title="被扣单位规则变更">
+                <p:tab title="被扣账号规则变更">
                     <h:form id="form">
                         <p:focus for="mchtcode"/>
                         <p:growl id="msgs" showDetail="false"/>
@@ -70,7 +70,7 @@
 
                                     <h:outputLabel value="*账号类型:"/>
                                     <h:selectOneMenu id="acctType" disabled="true" value="#{tqcRuleAcctAction.tqcRuleAcct.acctType}"
-                                                     required="true" requiredMessage="必须输入账号类型！"  style="width: 178px;">
+                                                     required="true" requiredMessage="必须输入账号类型！"  style="width: 100%;">
                                         <f:selectItems value="#{tqcRuleAcctAction.acctTypeList}" />
                                     </h:selectOneMenu>
 
@@ -87,13 +87,13 @@
                                                   maxlength="17" />
 
                                     <h:outputLabel rendered="#{tqcRuleAcctAction.tqcRuleAcct.acctType==1?false:true}" id="areaRuleFlag_Label"  value="*是否使用行业领域规则:" />
-                                    <h:selectOneMenu rendered="#{tqcRuleAcctAction.tqcRuleAcct.acctType==1?false:true}" style="width: 178px;"  id="areaRuleFlag_Select" value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" required="true" requiredMessage="必须输入是否使用行业领域规则!" >
+                                    <h:selectOneMenu rendered="#{tqcRuleAcctAction.tqcRuleAcct.acctType==1?false:true}" style="width: 100%;"  id="areaRuleFlag_Select" value="#{tqcRuleAcctAction.tqcRuleAcct.areaRuleFlag}" required="true" requiredMessage="必须输入是否使用行业领域规则!" >
                                         <f:selectItems value="#{tqcRuleAcctAction.areaRuleFlagList}" />
                                     </h:selectOneMenu>
 
                                     <h:outputLabel value="备注:"/>
                                     <p:inputTextarea  value="#{tqcRuleAcctAction.tqcRuleAcct.remark}" size="27"
-                                                      maxlength="100" style="width: 170px;height: 60px;"/>
+                                                      maxlength="100" style="width: 97%;height: 60px;"/>
                                 </h:panelGrid>
                                 <h:panelGrid style="text-align: right;">
                                     <p:commandButton id="refuseBtn" value="保存" style="width:90px; align:right"

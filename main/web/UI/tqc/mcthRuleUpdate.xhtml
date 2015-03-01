@@ -60,6 +60,10 @@
                                     <h:outputLabel value="*月累计限额:"/>
                                     <p:inputText required="true" value="#{tqcRuleMchtAction.tqcRuleMcht.monthAmtLim}" size="27"
                                                  maxlength="17" requiredMessage="必须输入金额！"/>
+
+                                    <h:outputLabel value="备注"/>
+                                    <p:inputTextarea value="#{tqcRuleMchtAction.tqcRuleMcht.remark}" size="27" style="width: 97%;height: 60px;" maxlength="100" />
+
                                 </h:panelGrid>
                                 <h:panelGrid style="text-align: right;">
                                     <p:commandButton id="refuseBtn" value="保存" style="width:90px; align:right"
